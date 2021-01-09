@@ -1,18 +1,26 @@
-<img src="{{recipe.imageUrl}}"/>
+<div class="recipe">
+  <div class="recipe-header">
+    <img class="image" src="{{recipe.imageUrl}}"/>
+    <h1 class="recipe-name">{{recipe.name}}</h1>
+  </div>
 
-<div class="recipe-name">{{recipe.name}}</div>
+  <h2>Ingredients:</h2>
+  <table class="ingredient-table">
+    <tr class="ingredient">
+      <th>Ingredient</th>
+      <th>Quantity</th>
+      <th>Measuring unit</th>
+    </tr>
+    <tr class="ingredient" *ngFor="let ingredient of recipe.ingredients">
+      <td>{{ingredient.name}}</td>
+      <td>{{ingredient.quantity}}</td>
+      <td>{{ingredient.unit}}</td>
+    </tr>
+  </table>
 
-<div>Ingredients:</div>
-
-<div class="ingredient" *ngFor="let ingredient of recipe.ingredients">
-  <div>{{ingredient.name}}</div>
-  <div>{{ingredient.quantity}}</div>
-  <div>{{ingredient.unit}}</div>
-</div>
-
-<div>Instructions:</div>
-
-<div class="instruction" *ngFor="let instruction of recipe.instructions; index as stepNumber">
-  <div class="step-number">{{stepNumber}}</div>
-  <div class="instruction-text">{{instruction}}</div>
+  <h2>Instructions:</h2>
+  <div class="instruction" *ngFor="let instruction of recipe.instructions; index as stepNumber">
+    <div class="step-number">{{stepNumber}}</div>
+    <div class="instruction-text">{{instruction}}</div>
+  </div>
 </div>
