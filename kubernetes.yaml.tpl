@@ -20,7 +20,7 @@ spec:
         app: spoon-frontend
     spec:
       containers:
-      - image: gcr.io/feisty-return-300415/spoon-fe:1
+      - image: gcr.io/GOOGLE_CLOUD_PROJECT/spoon-fe:COMMIT_SHA
         name: spoon-frontend
         ports:
         - containerPort: 80
