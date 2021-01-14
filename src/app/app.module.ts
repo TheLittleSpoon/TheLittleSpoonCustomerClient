@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { RecipeComponent } from './recipe/recipe.component';
-import { SmallRecipeListComponent } from './recipe-list/small-recipe-list/small-recipe-list.component';
-import { BigRecipeListComponent } from './recipe-list/big-recipe-list/big-recipe-list.component';
-import {CommonModule} from "@angular/common";
+import { HomeComponent } from './components/home/home.component';
+import { RecipeComponent } from './components/recipe/recipe.component';
+import { SmallRecipeListComponent } from './components//recipe-list/small-recipe-list/small-recipe-list.component';
+import { BigRecipeListComponent } from './components/recipe-list/big-recipe-list/big-recipe-list.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateEditRecipeComponent } from './components/create-edit-recipe/create-edit-recipe.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +17,17 @@ import {CommonModule} from "@angular/common";
     HomeComponent,
     RecipeComponent,
     SmallRecipeListComponent,
-    BigRecipeListComponent
+    BigRecipeListComponent,
+    CreateEditRecipeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

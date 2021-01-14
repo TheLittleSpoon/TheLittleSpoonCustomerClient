@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Recipe} from "../recipe/types/recipe";
-import {UnitEnum} from "../recipe/types/unit.enum";
+import {Recipe} from "../../interfaces/recipe";
+import {UnitEnum} from "../../interfaces/unit.enum";
 
 @Component({
   selector: 'app-home',
