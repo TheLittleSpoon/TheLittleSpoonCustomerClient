@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  background-color: var(--pink);
+  height: 70px;
+}
+
+.logo {
+  height: 70px;
+  width: 70px
+}

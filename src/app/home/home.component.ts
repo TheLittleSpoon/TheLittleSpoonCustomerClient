@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Recipe} from "../recipe/types/recipe";
-import {UnitEnum} from "../recipe/types/unit.enum";
+import {Recipe} from '../recipe/types/recipe';
+import {UnitEnum} from '../recipe/types/unit.enum';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,8 @@ export class HomeComponent implements OnInit {
     instructions: ['boil water in small pot', 'put egg in pot', 'wait 15 minutes', 'take egg out']
   }];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
