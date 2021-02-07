@@ -1,10 +1,17 @@
-.header {
+.title {
   display: flex;
-  background-color: var(--pink);
-  height: 70px;
+  justify-content: center;
+  align-content: center;
+  font-family: 'Satisfy', sans-serif;
+  font-size: 40px;
+  margin-top: 20px;
 }
 
-.logo {
-  height: 70px;
-  width: 70px
+.list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+app-small-recipe-list:not(:first-child) {
+  margin-top: 20px;
 }

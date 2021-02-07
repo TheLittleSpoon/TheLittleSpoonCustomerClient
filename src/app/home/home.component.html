@@ -1,5 +1,8 @@
 <app-header></app-header>
 
-<app-small-recipe-list [title]="'popular recipes right now'" [recipes]="recipes"></app-small-recipe-list>
+<div class="title">The Little Spoon</div>
 
-<app-small-recipe-list [title]="'your latest recipes'" [recipes]="recipes"></app-small-recipe-list>
+<div class="list-container">
+  <app-small-recipe-list [title]="'Popular recipes right now:'" [recipes]="recipes"></app-small-recipe-list>
+  <app-small-recipe-list [title]="'Your latest recipes:'" [recipes]="recipes"></app-small-recipe-list>
+</div>

@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
 
   initIconsRegistry(): void {
     this.matIconRegistry.addSvgIcon('the_little_spoon',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/the_little_spoon.svg'));
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/TheLittleSpoonLogo.svg'));
+    this.matIconRegistry.addSvgIcon('burger',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/burger.svg'));
+    this.matIconRegistry.addSvgIcon('white-burger',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/white-burger.svg'));
   }
 }
