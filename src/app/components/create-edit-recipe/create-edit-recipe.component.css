@@ -79,3 +79,7 @@ img {
   object-fit: cover;
   padding: 6px;
 }
+
+.btn-submit {
+  margin-top: 10px;
+}

@@ -2,11 +2,11 @@
   <div class="header">Create Recipe</div>
   <form [formGroup]="createRecipeForm" (ngSubmit)="onSubmit()" class="form">
     <label for="recipeName">Recipe Name</label>
-    <input formControleName="recipeName" id="recipeName" type="text">
+    <input id="recipeName" formControlName="recipeName" type="text">
     <label for="instructions">Instructions</label>
-    <input formControleName="instructions" id="instructions" type="text">
+    <input formControlName="instructions" id="instructions" type="text">
     <label for="imageFile">Image</label>
-    <input class="image-uploader" formControleName="imageFile" id="imageFile" type="file" accept="image/*"
+    <input class="image-uploader" formControlName="imageFile" id="imageFile" type="file" accept="image/*"
       (change)="loadFile($event)" #file>
     <div class="image-buttons">
       <button type="button" class="image-uploader-button" (click)="file.click()"><i
@@ -32,6 +32,6 @@
         </select>
       </div>
     </div>
-    <button class="btn btn-primary" type="submit" [disabled]="!createRecipeForm.valid">Submit</button>
+    <button class="btn-submit" type="submit" [disabled]="!createRecipeForm.valid">Submit</button>
   </form>
 </div>

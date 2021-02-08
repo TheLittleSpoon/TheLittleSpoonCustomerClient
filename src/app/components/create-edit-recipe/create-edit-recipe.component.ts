@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
 import {
-  FormArray,
-  FormControl,
-  FormControlName,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Recipe } from 'src/app/interfaces/recipe';
 
 @Component({
@@ -13,13 +15,16 @@ import { Recipe } from 'src/app/interfaces/recipe';
   templateUrl: './create-edit-recipe.component.html',
   styleUrls: ['./create-edit-recipe.component.css'],
 })
-export class CreateEditRecipeComponent implements OnInit {
+export class CreateEditRecipeComponent implements OnInit, OnChanges {
   @Input() isEditMode!: boolean;
   @Input() recipe?: Recipe;
+  @Output() saveRecipe!: EventEmitter<Recipe>;
   url!: string;
   createRecipeForm!: FormGroup;
 
-  constructor() {}
+  constructor() {
+    this.saveRecipe = new EventEmitter<Recipe>();
+  }
 
   ngOnInit(): void {
     this.recipe = {
@@ -33,17 +38,15 @@ export class CreateEditRecipeComponent implements OnInit {
     this.initForm();
   }
 
-  loadFile(event: Event): void {
-    const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
-      const [file] = event.target.files;
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        this.url = reader.result as string;
+  ngOnChanges(changes: SimpleChanges): void {}
 
-        this.createRecipeForm.patchValue({
-          fileSource: reader.result,
-        });
+  loadFile(event: any): void {
+    var selectedImage = event.target.files[0];
+    if (selectedImage) {
+      var reader = new FileReader();
+      reader.readAsDataURL(selectedImage);
+      reader.onload = (e: any) => {
+        this.url = e.target.result;
       };
     }
   }
@@ -56,11 +59,12 @@ export class CreateEditRecipeComponent implements OnInit {
     let recipe: Recipe = {
       name: this.createRecipeForm.controls['recipeName']?.value,
       instructions: this.createRecipeForm.controls['instructions']?.value,
-      imageUrl: this.createRecipeForm.controls['imageFile']?.value,
+      imageUrl: this.url,
       ingredients: this.createRecipeForm.controls['ingredients']?.value,
     };
-    console.log(recipe);
+    this.saveRecipe.emit(recipe);
     this.createRecipeForm.reset();
+    this.deleteUrl();
   }
 
   private get f() {
@@ -73,9 +77,8 @@ export class CreateEditRecipeComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]),
-      instructions: new FormControl('', [Validators.required]),
-      imageFile: new FormControl('', [Validators.required]),
-      fileSource: new FormControl('', [Validators.required]),
+      instructions: new FormControl('', Validators.required),
+      imageFile: new FormControl('', Validators.required),
       ingredients: new FormArray([new FormControl(null)]),
     });
   }

@@ -10,6 +10,7 @@ import { BigRecipeListComponent } from './components/recipe-list/big-recipe-list
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateEditRecipeComponent } from './components/create-edit-recipe/create-edit-recipe.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CreateEditRecipeComponent } from './components/create-edit-recipe/creat
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
