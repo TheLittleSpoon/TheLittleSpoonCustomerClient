@@ -58,6 +58,7 @@
 .ingredients-inputs {
   flex-direction: row;
   display: flex;
+  margin-top: 6px;
 }
 
 .ingredients-inputs input {
@@ -69,7 +70,6 @@
   border: none;
   background-color: antiquewhite;
   border-radius: 7px;
-  width: 40px;
 }
 
 img {
@@ -82,4 +82,13 @@ img {
 
 .btn-submit {
   margin-top: 10px;
+}
+
+.units {
+  width: 80px;
+  margin-left: 5px;
+}
+
+.quantity {
+  width: 35px;
 }

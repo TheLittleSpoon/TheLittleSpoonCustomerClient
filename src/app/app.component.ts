@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Recipe } from './interfaces/recipe';
+import { RecipeService } from './services/recipe.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,9 @@ import { Recipe } from './interfaces/recipe';
 export class AppComponent {
   title = 'the-little-spoon-customer-client';
 
-  saveRecipe(recipe: Recipe): void {}
+  constructor(private recipeService: RecipeService) {}
+
+  saveRecipe(recipe: Recipe): void {
+    this.recipeService.saveRecipe(recipe);
+  }
 }
