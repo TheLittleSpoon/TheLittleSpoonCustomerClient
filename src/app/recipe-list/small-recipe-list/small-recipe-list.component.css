@@ -8,7 +8,8 @@
 
 .list-strip {
   display: flex;
-  background-color: rgba(194, 104, 102, 0.4);
+  background-color: var(--list-background);
+  overflow-x: scroll;
 }
 
 .recipe-wrapper {
@@ -36,4 +37,21 @@
   height: 150px;
   width: 150px;
   border-radius: 20px;
+}
+
+.list-strip::-webkit-scrollbar {
+  height: 10px;
+}
+
+.list-strip::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.list-strip::-webkit-scrollbar-thumb {
+  background-color: var(--light-maroon);
+  border-radius: 10px;
+}
+
+.list-strip::-webkit-scrollbar-thumb:hover {
+  background-color: var(--maroon);
 }

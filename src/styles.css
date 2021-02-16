@@ -9,6 +9,7 @@
 
   --light-maroon: #88506A;
   --light-background: rgba(69, 0, 33, 0.2);
+  --list-background: rgba(194, 104, 102, 0.4);
 }
 
 html, body { height: 100%; background-color:  var(--light-background)}
