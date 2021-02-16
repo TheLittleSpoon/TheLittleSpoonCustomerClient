@@ -58,7 +58,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   }
 
   addIngredient(): void {
-    this.createRecipeForm.controls['ingredients'].push(
+    this.ingredients.push(
       this.fb.group(
         {
           name: new FormControl(undefined, Validators.required),
@@ -68,37 +68,33 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         Validators.required
       )
     );
-    console.log(this.createRecipeForm);
+  }
+
+  get ingredients(): FormArray {
+    return this.createRecipeForm.get('ingredients') as FormArray;
   }
 
   onSubmit(): void {
-    console.log(this.createRecipeForm);
-    let ingredients: Ingredient[] = [];
-    this.createRecipeForm.controls['ingredients']?.controls.forEach(
-      (element) => {
-        let ingredient = {
-          name: element.controls['name'].value,
-          quantity: element.controls['quantity'].value,
-          unit: element.controls['unit'].value,
-        };
-        if (ingredient.name && ingredient.quantity && ingredient.unit) {
-          ingredients.push(ingredient);
-        }
+    let ingredientsArray: Ingredient[] = [];
+    for (let element of this.ingredients.controls) {
+      let ingredient = {
+        name: element.get('name')?.value,
+        quantity: element.get('quantity')?.value,
+        unit: element.get('unit')?.value,
+      };
+      if (ingredient.name && ingredient.quantity && ingredient.unit) {
+        ingredientsArray.push(ingredient);
       }
-    );
+    }
     let recipe: Recipe = {
       name: this.createRecipeForm.controls['recipeName']?.value,
       instructions: this.createRecipeForm.controls['instructions']?.value,
       imageUrl: this.url,
-      ingredients: ingredients,
+      ingredients: ingredientsArray,
     };
     this.saveRecipe.emit(recipe);
     this.createRecipeForm.reset();
     this.deleteUrl();
-  }
-
-  private get f() {
-    return this.createRecipeForm.controls;
   }
 
   private initForm(): void {

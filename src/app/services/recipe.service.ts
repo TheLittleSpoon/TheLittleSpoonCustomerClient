@@ -11,8 +11,9 @@ export class RecipeService {
   constructor(private http: HttpClient) {}
 
   saveRecipe(recipe: Recipe): void {
+    console.log(recipe);
     this.http
-      .post<Recipe>('http://localhost:3000/recipes/create-recipe', recipe)
+      .post<Recipe>('http://localhost:3000/api/recipes/create', recipe)
       .toPromise()
       .then((data) => {
         console.log(data);

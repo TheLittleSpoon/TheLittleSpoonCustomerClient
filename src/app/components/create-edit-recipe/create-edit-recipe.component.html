@@ -18,8 +18,7 @@
     <label>Ingredients</label>
     <button type="button" class="image-uploader-button" (click)="addIngredient()"><i class="fas fa-plus"></i></button>
     <div formArrayName="ingredients">
-      <div *ngFor="let item of createRecipeForm.controls['ingredients']?.controls; let i = index"
-        class="ingredients-inputs" [formGroupName]="i">
+      <div *ngFor="let item of ingredients.controls; let i = index" class="ingredients-inputs" [formGroupName]="i">
         <input type="text" id="name" formControlName="name">
         <select class="quantity" name="quantity" id="quantity" formControlName="quantity">
           <option value="1">1</option>
