@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Recipe} from '../recipe/types/recipe';
 import {UnitEnum} from '../recipe/types/unit.enum';
+import {RecipeService} from '../../services/recipe.service';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +23,14 @@ export class HomeComponent implements OnInit {
       instructions: ['pour water into glass']
     }];
 
-  constructor() {
+  constructor(private recipeService: RecipeService) {
   }
 
   ngOnInit(): void {
+    this.recipeService.getRecipes().subscribe((recipesFromServer: Recipe[]) => {
+      if (recipesFromServer) {
+        this.recipes = recipesFromServer;
+      }
+    });
   }
-
 }

@@ -1,0 +1,37 @@
+<div class="create-page">
+  <div class="header">Create Recipe</div>
+  <form [formGroup]="createRecipeForm" (ngSubmit)="onSubmit()" class="form">
+    <label for="recipeName">Recipe Name</label>
+    <input id="recipeName" formControlName="recipeName" type="text">
+    <label for="instructions">Instructions</label>
+    <input formControlName="instructions" id="instructions" type="text">
+    <label for="imageFile">Image</label>
+    <input class="image-uploader" formControlName="imageFile" id="imageFile" type="file" accept="image/*"
+      (change)="loadFile($event)" #file>
+    <div class="image-buttons">
+      <button type="button" class="image-uploader-button" (click)="file.click()"><i
+          class="fas fa-folder-open"></i></button>
+      <button type="button" class="image-uploader-button" (click)="deleteUrl()"><i
+          class="fas fa-trash-alt"></i></button>
+    </div>
+    <img *ngIf="url" id="output" width="200" [src]="url" />
+    <label>Ingredients</label>
+    <button type="button" class="image-uploader-button" (click)="addIngredient()"><i class="fas fa-plus"></i></button>
+    <div formArrayName="ingredients">
+      <div *ngFor="let item of ingredients.controls; let i = index" class="ingredients-inputs" [formGroupName]="i">
+        <input type="text" id="name" formControlName="name">
+        <select class="quantity" name="quantity" id="quantity" formControlName="quantity">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <select class="units" name="unit" id="unit" formControlName="unit">
+          <option *ngFor="let unit of unitEnum | keyvalue" value="{{unit.value}}">{{unit.value}}</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-submit" type="submit" [disabled]="!createRecipeForm?.valid">Submit</button>
+  </form>
+</div>
