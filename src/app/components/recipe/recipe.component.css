@@ -8,7 +8,7 @@
   width: 500px;
 }
 
-.recipe-header {
+.recipe-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;

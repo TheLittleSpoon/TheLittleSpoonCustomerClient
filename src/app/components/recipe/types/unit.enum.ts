@@ -1,8 +1,8 @@
 export enum UnitEnum {
   GRAM = 'gram',
   KILO = 'kilo',
-  AMOUNT = 'amount',
+  AMOUNT = '',
   CUP = 'cup',
   SPOON = 'spoon',
-  TEA_SPOON = 'tea spoon',
+  TEA_SPOON = 'tea spoon'
 }

@@ -1,0 +1,15 @@
+<mat-drawer-container class="sidenav-container">
+  <mat-drawer #drawer class="drawer-sidenav" mode="side" (clickOutside)="drawer.close()">
+    <nav class="nav-list">
+      <a class="button" routerLink="/home" (click)="drawer.close()">Home</a>
+      <a class="button" routerLink="/search-recipe" (click)="drawer.close()">Search recipe</a>
+      <a class="button" routerLink="/create-recipe" (click)="drawer.close()">Create recipe</a>
+    </nav>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <app-header (burgerClick)="drawer.toggle()"></app-header>
+    <div class="title">The Little Spoon</div>
+    <ng-content></ng-content>
+  </div>
+</mat-drawer-container>

@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&family=Ubuntu&display=swap');
+
+:root {
+  --yellow: #DBAF49;
+  --orange: #E87C00;
+  --maroon: #450021;
+  --pink: #C26866;
+  --magenta: #852552;
+
+  --light-maroon: #88506A;
+  --light-background: rgba(69, 0, 33, 0.2);
+  --list-background: rgba(194, 104, 102, 0.4);
+}
+
+html, body { height: 100%; background-color:  var(--light-background)}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

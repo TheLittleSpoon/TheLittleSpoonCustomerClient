@@ -14,9 +14,10 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { Ingredient } from 'src/app/interfaces/ingredient';
-import { Recipe } from 'src/app/interfaces/recipe';
-import { UnitEnum } from 'src/app/interfaces/unit.enum';
+import {Recipe} from '../recipe/types/recipe';
+import {UnitEnum} from '../recipe/types/unit.enum';
+import {Ingredient} from '../recipe/types/ingredient';
+import {RecipeService} from '../../services/recipe.service';
 
 @Component({
   selector: 'app-create-edit-recipe',
@@ -24,14 +25,15 @@ import { UnitEnum } from 'src/app/interfaces/unit.enum';
   styleUrls: ['./create-edit-recipe.component.css'],
 })
 export class CreateEditRecipeComponent implements OnInit, OnChanges {
-  @Input() isEditMode!: boolean;
+  @Input() isEditMode?: boolean = true;
   @Input() recipe?: Recipe;
   @Output() saveRecipe!: EventEmitter<Recipe>;
   url!: string;
   createRecipeForm!: FormGroup;
   readonly unitEnum: typeof UnitEnum = UnitEnum;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private recipeService: RecipeService) {
     this.saveRecipe = new EventEmitter<Recipe>();
   }
 
@@ -39,12 +41,13 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   loadFile(event: any): void {
-    var selectedImage = event.target.files[0];
+    const selectedImage = event.target.files[0];
     if (selectedImage) {
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(selectedImage);
       reader.onload = (e: any) => {
         this.url = e.target.result;
@@ -54,7 +57,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
 
   deleteUrl(): void {
     this.url = '';
-    this.createRecipeForm.controls['imageFile']?.setValue(undefined);
+    this.createRecipeForm.controls.imageFile?.setValue(undefined);
   }
 
   addIngredient(): void {
@@ -75,9 +78,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
-    let ingredientsArray: Ingredient[] = [];
-    for (let element of this.ingredients.controls) {
-      let ingredient = {
+    const ingredientsArray: Ingredient[] = [];
+    for (const element of this.ingredients.controls) {
+      const ingredient = {
         name: element.get('name')?.value,
         quantity: element.get('quantity')?.value,
         unit: element.get('unit')?.value,
@@ -86,13 +89,14 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         ingredientsArray.push(ingredient);
       }
     }
-    let recipe: Recipe = {
-      name: this.createRecipeForm.controls['recipeName']?.value,
-      instructions: this.createRecipeForm.controls['instructions']?.value,
+    const recipe: Recipe = {
+      name: this.createRecipeForm.controls.recipeName?.value,
+      instructions: this.createRecipeForm.controls.instructions?.value,
       imageUrl: this.url,
       ingredients: ingredientsArray,
     };
     this.saveRecipe.emit(recipe);
+    this.recipeService.saveRecipe(recipe);
     this.createRecipeForm.reset();
     this.deleteUrl();
   }

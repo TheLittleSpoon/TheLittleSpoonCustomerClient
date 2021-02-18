@@ -1,35 +1,39 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { RecipeComponent } from './components/recipe/recipe.component';
-import { SmallRecipeListComponent } from './components//recipe-list/small-recipe-list/small-recipe-list.component';
-import { BigRecipeListComponent } from './components/recipe-list/big-recipe-list/big-recipe-list.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CreateEditRecipeComponent } from './components/create-edit-recipe/create-edit-recipe.component';
-import { HttpClientModule } from '@angular/common/http';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {CommonModule} from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
+import {HttpClientModule} from '@angular/common/http';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {APP_COMPONENTS} from './components';
+import {APP_DIRECTIVES} from './directives';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    RecipeComponent,
-    SmallRecipeListComponent,
-    BigRecipeListComponent,
-    CreateEditRecipeComponent,
+    ...APP_COMPONENTS,
+    ...APP_DIRECTIVES
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    MatIconModule,
+    MatFormFieldModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

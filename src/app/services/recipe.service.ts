@@ -1,26 +1,30 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Recipe } from '../interfaces/recipe';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {Recipe} from '../components/recipe/types/recipe';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipeService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   saveRecipe(recipe: Recipe): void {
     console.log(recipe);
     this.http
-      .post<Recipe>('http://localhost:3000/api/recipes/create', recipe)
+      .post<Recipe>('http://34.66.166.236/:3000/api/recipes/create', recipe)
       .toPromise()
       .then((data) => {
         console.log(data);
       });
   }
 
-  private handleError(error: HttpErrorResponse) {
+  getRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>('http://34.66.166.236:3000/api/recipes/');
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<any> {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);

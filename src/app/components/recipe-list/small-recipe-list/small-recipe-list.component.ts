@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Recipe} from "../../../interfaces/recipe";
+import {Recipe} from '../../recipe/types/recipe';
 
 @Component({
   selector: 'app-small-recipe-list',
@@ -7,7 +7,7 @@ import {Recipe} from "../../../interfaces/recipe";
   styleUrls: ['./small-recipe-list.component.css']
 })
 export class SmallRecipeListComponent implements OnInit {
-  @Input() title: string = '';
+  @Input() title = '';
   @Input() recipes: Recipe[] = [];
 
   constructor() { }

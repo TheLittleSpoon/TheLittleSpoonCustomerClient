@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  background-color: var(--maroon);
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.logo {
+  height: 80px;
+  width: 80px;
+  margin-top: 5px;
+}
+
+.burger {
+  margin-left: 10px;
+  height: 70px;
+  width: 70px;
+}
+
+.right-wrapper {
+  display: flex;
+  color: var(--light-maroon);
+  margin-right: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: bold;
+  align-items: center;
+}

@@ -1,5 +1,10 @@
-<div>{{title}}</div>
+<div class="title">{{title}}</div>
 
-<div *ngFor="let recipe of recipes">
-  <app-recipe [recipe]="recipe"></app-recipe>
+<div class="list-strip">
+  <div *ngFor="let recipe of recipes" class="recipe">
+    <div class="recipe-wrapper">
+      <div class="recipe-name">{{recipe.name}}</div>
+      <img class="image" src="{{recipe.imageUrl}}"/>
+    </div>
+  </div>
 </div>

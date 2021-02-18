@@ -1,0 +1,8 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+app-small-recipe-list:not(:first-child) {
+  margin-top: 20px;
+}
