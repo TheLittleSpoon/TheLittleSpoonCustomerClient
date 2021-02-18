@@ -1,4 +1,4 @@
-import {UnitEnum} from "./unit.enum";
+import {UnitEnum} from './unit.enum';
 
 export class Ingredient {
   name!: string;

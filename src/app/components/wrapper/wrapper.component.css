@@ -1,0 +1,37 @@
+.sidenav-container {
+  background-color: unset;
+  height: 100%;
+}
+
+.drawer-sidenav {
+  background-color: var(--light-maroon);
+  width: 200px
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 25px;
+}
+
+.nav-list > * {
+  margin: 5px 5px 20px;
+}
+
+.button {
+  color: var(--maroon);
+  background-color: var(--light-background);
+  text-decoration: none;
+  font-family: 'Satisfy', sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: 'Satisfy', sans-serif;
+  font-size: 40px;
+  margin-top: 20px;
+}
