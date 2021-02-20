@@ -1,5 +1,5 @@
 <div class="create-page">
-  <div class="header">Create Recipe</div>
+  <div class="header">{{recipeToEdit ? 'Edit Recipe' : 'Create Recipe'}}</div>
   <form [formGroup]="createRecipeForm" (ngSubmit)="onSubmit()" class="form">
     <label for="recipeName">Recipe Name</label>
     <input id="recipeName" formControlName="recipeName" type="text">
@@ -32,6 +32,7 @@
         </select>
       </div>
     </div>
-    <button class="btn-submit" type="submit" [disabled]="!createRecipeForm?.valid">Submit</button>
+    <button class="btn-submit" type="submit"
+      [disabled]="recipeToEdit ? recipeToEditChanged : !createRecipeForm?.valid">Submit</button>
   </form>
 </div>

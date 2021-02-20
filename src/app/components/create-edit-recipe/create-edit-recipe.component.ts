@@ -14,10 +14,11 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import {Recipe} from '../recipe/types/recipe';
-import {UnitEnum} from '../recipe/types/unit.enum';
-import {Ingredient} from '../recipe/types/ingredient';
-import {RecipeService} from '../../services/recipe.service';
+import { Recipe } from '../recipe/types/recipe';
+import { UnitEnum } from '../recipe/types/unit.enum';
+import { Ingredient } from '../recipe/types/ingredient';
+import { RecipeService } from '../../services/recipe.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-edit-recipe',
@@ -28,21 +29,40 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   @Input() isEditMode?: boolean = true;
   @Input() recipe?: Recipe;
   @Output() saveRecipe!: EventEmitter<Recipe>;
-  url!: string;
+  @Output() updateRecipe!: EventEmitter<Recipe>;
+  url?: string;
   createRecipeForm!: FormGroup;
+  recipeToEdit?: Recipe;
+  recipeToEditChanged?: boolean;
   readonly unitEnum: typeof UnitEnum = UnitEnum;
 
-  constructor(private fb: FormBuilder,
-              private recipeService: RecipeService) {
+  constructor(
+    private fb: FormBuilder,
+    private recipeService: RecipeService,
+    private route: ActivatedRoute
+  ) {
     this.saveRecipe = new EventEmitter<Recipe>();
+    this.updateRecipe = new EventEmitter<Recipe>();
+    this.recipeToEditChanged = true;
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.recipeToEdit = this.recipeService.getRecipe(params.id);
+    });
     this.initForm();
+    this.createRecipeForm.valueChanges.subscribe((newRecipe) => {
+      const { recipeName, instructions, ingredients, imageFile } = newRecipe;
+      this.recipeToEditChanged =
+        recipeName == this.recipeToEdit?.name &&
+        instructions == this.recipeToEdit?.instructions &&
+        JSON.stringify(ingredients) ==
+          JSON.stringify(this.recipeToEdit?.ingredients) &&
+        imageFile == this.recipeToEdit?.imageUrl;
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   loadFile(event: any): void {
     const selectedImage = event.target.files[0];
@@ -60,13 +80,13 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     this.createRecipeForm.controls.imageFile?.setValue(undefined);
   }
 
-  addIngredient(): void {
+  addIngredient(ingredient?: Ingredient): void {
     this.ingredients.push(
       this.fb.group(
         {
-          name: new FormControl(undefined, Validators.required),
-          quantity: new FormControl(undefined, Validators.required),
-          unit: new FormControl(undefined, Validators.required),
+          name: new FormControl(ingredient?.name, Validators.required),
+          quantity: new FormControl(ingredient?.quantity, Validators.required),
+          unit: new FormControl(ingredient?.unit, Validators.required),
         },
         Validators.required
       )
@@ -95,21 +115,36 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       imageUrl: this.url,
       ingredients: ingredientsArray,
     };
-    this.saveRecipe.emit(recipe);
+    this.recipeToEdit
+      ? this.recipeService.updateRecipe.emit(recipe)
+      : this.recipeService.saveRecipe(recipe);
     this.recipeService.saveRecipe(recipe);
     this.createRecipeForm.reset();
     this.deleteUrl();
   }
 
+  private addIngredients(ingredients: Ingredient[]) {
+    ingredients.forEach((ingredient) => this.addIngredient(ingredient));
+  }
+
   private initForm(): void {
     this.createRecipeForm = this.fb.group({
-      recipeName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-      instructions: new FormControl('', Validators.required),
-      imageFile: new FormControl('', Validators.required),
+      recipeName: new FormControl(
+        this.recipeToEdit ? this.recipeToEdit.name : '',
+        [Validators.required, Validators.minLength(3)]
+      ),
+      instructions: new FormControl(
+        this.recipeToEdit ? this.recipeToEdit.instructions : '',
+        Validators.required
+      ),
+      imageFile: new FormControl(
+        this.recipeToEdit ? this.recipeToEdit.imageUrl : ''
+      ),
       ingredients: this.fb.array([], Validators.required),
     });
+    this.recipeToEdit
+      ? (this.url = this.recipeToEdit.imageUrl) &&
+        this.addIngredients(this.recipeToEdit.ingredients)
+      : '';
   }
 }

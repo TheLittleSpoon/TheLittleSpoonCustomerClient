@@ -1,6 +1,7 @@
-import {Ingredient} from './ingredient';
+import { Ingredient } from './ingredient';
 
 export class Recipe {
+  id?: number;
   name!: string;
   imageUrl?: string;
   ingredients!: Ingredient[];
