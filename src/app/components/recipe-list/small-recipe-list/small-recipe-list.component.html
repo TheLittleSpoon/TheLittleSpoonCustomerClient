@@ -6,7 +6,8 @@
       <div class="container">
         <img src="{{recipe.imageUrl}}" class="image">
         <div class="middle">
-          <div class="text" routerLink="/edit-recipe/{{recipe.id}}">Edit</div>
+          <span class="text" routerLink="/edit-recipe/{{recipe.id}}">Edit</span>
+          <span class="text" (click)="deleteRecipe(recipe)">Delete</span>
         </div>
       </div>
     </div>

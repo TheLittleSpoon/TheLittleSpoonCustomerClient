@@ -53,6 +53,13 @@ export class RecipeService {
       });
   }
 
+  deleteRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(
+      'http://34.66.166.236:3000/api/recipes/delete',
+      recipe
+    );
+  }
+
   getRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>('http://34.66.166.236:3000/api/recipes/');
   }

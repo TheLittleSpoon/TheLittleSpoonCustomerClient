@@ -116,7 +116,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       ingredients: ingredientsArray,
     };
     this.recipeToEdit
-      ? this.recipeService.updateRecipe.emit(recipe)
+      ? this.recipeService.updateRecipe(recipe)
       : this.recipeService.saveRecipe(recipe);
     this.recipeService.saveRecipe(recipe);
     this.createRecipeForm.reset();
