@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { UnitEnum } from '../components/recipe/types/unit.enum';
 import { Recipe } from '../components/recipe/types/recipe';
@@ -12,7 +12,6 @@ export class RecipeService {
     {
       id: 1,
       name: 'hard boiled egg',
-      // tslint:disable-next-line:max-line-length
       imageUrl:
         'https://static.toiimg.com/thumb/msid-68494742,width-800,height-600,resizemode-75,imgsize-1248878,pt-32,y_pad-40/68494742.jpg',
       ingredients: [{ name: 'egg', quantity: 1, unit: UnitEnum.AMOUNT }],
@@ -32,7 +31,11 @@ export class RecipeService {
       instructions: ['pour water into glass'],
     },
   ];
-  constructor(private http: HttpClient) {}
+  filteredRecipes?: Recipe[];
+  filteredRecipesEmitter!: EventEmitter<Recipe[]>;
+  constructor(private http: HttpClient) {
+    this.filteredRecipesEmitter = new EventEmitter<Recipe[]>();
+  }
 
   saveRecipe(recipe: Recipe): void {
     this.http
@@ -51,6 +54,13 @@ export class RecipeService {
       .then((data) => {
         console.log(data);
       });
+  }
+
+  searchRecipeByName(recipeName: string): void {
+    this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
+      recipe.name.includes(recipeName)
+    );
+    this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {

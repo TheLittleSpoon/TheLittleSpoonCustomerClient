@@ -7,3 +7,32 @@
   padding: 2px;
   margin-right: 15px;
 }
+
+.search-container input {
+  background-color: var(--pink);
+  border: none;
+}
+
+::placeholder {
+  color: rgb(34, 34, 34);
+}
+
+.search-container input:focus {
+  outline: none;
+}
+
+.fa-search {
+  color: rgb(56, 56, 56);
+}
+
+.fa-search:hover {
+  color: rgb(7, 7, 7);
+  cursor: pointer;
+}
+
+.btn-success {
+  background-color: var(--pink);
+  margin-right: 4px;
+  border: none;
+  outline: none;
+}

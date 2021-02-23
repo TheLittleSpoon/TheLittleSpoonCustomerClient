@@ -1,5 +1,6 @@
-<div class="search-container">
-  <mat-form-field>
-    <input matInput placeholder="search" [formControl]="searchInput">
-  </mat-form-field>
-</div>
+<form [formGroup]="recipeSearchForm" class="search-container" (ngSubmit)="onSubmit()">
+  <input placeholder="search recipe name..." id="recipeName" formControlName="recipeName">
+  <button type="submit" class="btn-success">
+    <i class="fas fa-search" type="submit"></i>
+  </button>
+</form>
