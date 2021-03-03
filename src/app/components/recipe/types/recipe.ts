@@ -6,4 +6,5 @@ export class Recipe {
   imageUrl?: string;
   ingredients!: Ingredient[];
   instructions!: string[];
+  categoryId!: number;
 }

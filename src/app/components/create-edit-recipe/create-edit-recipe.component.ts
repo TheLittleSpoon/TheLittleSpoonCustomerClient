@@ -114,6 +114,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       instructions: this.createRecipeForm.controls.instructions?.value,
       imageUrl: this.url,
       ingredients: ingredientsArray,
+      categoryId: 1,
     };
     this.recipeToEdit
       ? this.recipeService.updateRecipe(recipe)

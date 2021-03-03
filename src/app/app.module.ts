@@ -13,11 +13,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {APP_COMPONENTS} from './components';
 import {APP_DIRECTIVES} from './directives';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 @NgModule({
   declarations: [
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES
+    ...APP_DIRECTIVES,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
