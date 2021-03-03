@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CreateEditRecipeComponent } from './components/create-edit-recipe/create-edit-recipe.component';
 import { HomeComponent } from './components/home/home.component';
+import { SmallRecipeListComponent } from './components/recipe-list/small-recipe-list/small-recipe-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },

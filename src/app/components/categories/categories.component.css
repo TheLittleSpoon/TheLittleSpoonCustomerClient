@@ -106,3 +106,20 @@
 .list-strip::-webkit-scrollbar-thumb:hover {
   background-color: var(--maroon);
 }
+
+::ng-deep app-small-recipe-list .list-strip {
+  border-radius: 10px;
+}
+
+.recipes {
+  display: flex;
+}
+
+.fa-window-close {
+  padding: 10px;
+}
+
+.fa-window-close:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
