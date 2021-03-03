@@ -3,6 +3,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { UnitEnum } from '../components/recipe/types/unit.enum';
 import { Recipe } from '../components/recipe/types/recipe';
+import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +37,7 @@ export class RecipeService {
   ];
   filteredRecipes?: Recipe[];
   filteredRecipesEmitter!: EventEmitter<Recipe[]>;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.filteredRecipesEmitter = new EventEmitter<Recipe[]>();
   }
 
@@ -44,9 +46,13 @@ export class RecipeService {
       .post<Recipe>('http://34.66.166.236/:3000/api/recipes/create', recipe)
       .toPromise()
       .then((data) => {
-        console.log(data);
+        Swal.fire('Success', 'Recipe Saved!', 'success');
+        this.router.navigate(['home']);
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => {
+        Swal.fire('Error', 'Could Not Save Recipe!', 'error');
+        this.router.navigate(['home']);
+      });
   }
 
   updateRecipe(recipe: Recipe): void {
@@ -54,7 +60,12 @@ export class RecipeService {
       .post<Recipe>('http://34.66.166.236/:3000/api/recipes/update', recipe)
       .toPromise()
       .then((data) => {
-        console.log(data);
+        Swal.fire('Success', 'Recipe Saved!', 'success');
+        this.router.navigate(['home']);
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Could Not Save Recipe!', 'error');
+        this.router.navigate(['home']);
       });
   }
 

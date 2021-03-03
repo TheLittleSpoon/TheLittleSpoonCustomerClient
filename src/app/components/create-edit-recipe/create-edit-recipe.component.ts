@@ -19,6 +19,8 @@ import { UnitEnum } from '../recipe/types/unit.enum';
 import { Ingredient } from '../recipe/types/ingredient';
 import { RecipeService } from '../../services/recipe.service';
 import { ActivatedRoute } from '@angular/router';
+import { CategoryService } from 'src/app/services/categories.service';
+import { Category } from 'src/app/interfaces/category';
 
 @Component({
   selector: 'app-create-edit-recipe',
@@ -34,27 +36,40 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   createRecipeForm!: FormGroup;
   recipeToEdit?: Recipe;
   recipeToEditChanged?: boolean;
+  categories?: Category[];
+  submitted!: boolean;
+  showProgressBar!: boolean;
   readonly unitEnum: typeof UnitEnum = UnitEnum;
 
   constructor(
     private fb: FormBuilder,
     private recipeService: RecipeService,
+    private categoryService: CategoryService,
     private route: ActivatedRoute
   ) {
     this.saveRecipe = new EventEmitter<Recipe>();
     this.updateRecipe = new EventEmitter<Recipe>();
     this.recipeToEditChanged = true;
+    this.showProgressBar = false;
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.recipeToEdit = this.recipeService.getRecipe(params.id);
     });
+    this.categories = this.categoryService.getCategories();
     this.initForm();
     this.createRecipeForm.valueChanges.subscribe((newRecipe) => {
-      const { recipeName, instructions, ingredients, imageFile } = newRecipe;
+      const {
+        recipeName,
+        categoryId,
+        instructions,
+        ingredients,
+        imageFile,
+      } = newRecipe;
       this.recipeToEditChanged =
         recipeName == this.recipeToEdit?.name &&
+        categoryId == this.recipeToEdit?.categoryId &&
         instructions == this.recipeToEdit?.instructions &&
         JSON.stringify(ingredients) ==
           JSON.stringify(this.recipeToEdit?.ingredients) &&
@@ -98,10 +113,12 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
+    this.showProgressBar = true;
     const ingredientsArray: Ingredient[] = [];
     for (const element of this.ingredients.controls) {
       const ingredient = {
         name: element.get('name')?.value,
+        categoryId: element.get('categoryId')?.value,
         quantity: element.get('quantity')?.value,
         unit: element.get('unit')?.value,
       };
@@ -111,10 +128,10 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     }
     const recipe: Recipe = {
       name: this.createRecipeForm.controls.recipeName?.value,
+      categoryId: this.createRecipeForm.controls.categoryId?.value,
       instructions: this.createRecipeForm.controls.instructions?.value,
       imageUrl: this.url,
       ingredients: ingredientsArray,
-      categoryId: 1,
     };
     this.recipeToEdit
       ? this.recipeService.updateRecipe(recipe)
@@ -133,6 +150,10 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       recipeName: new FormControl(
         this.recipeToEdit ? this.recipeToEdit.name : '',
         [Validators.required, Validators.minLength(3)]
+      ),
+      categoryId: new FormControl(
+        this.recipeToEdit ? this.recipeToEdit.categoryId : undefined,
+        [Validators.required]
       ),
       instructions: new FormControl(
         this.recipeToEdit ? this.recipeToEdit.instructions : '',

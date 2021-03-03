@@ -1,10 +1,14 @@
-<div class="create-page">
+<div *ngIf="!showProgressBar; else ProgressBar" class="create-page">
   <div class="header">{{recipeToEdit ? 'Edit Recipe' : 'Create Recipe'}}</div>
   <form [formGroup]="createRecipeForm" (ngSubmit)="onSubmit()" class="form">
     <label for="recipeName">Recipe Name</label>
     <input id="recipeName" formControlName="recipeName" type="text">
     <label for="instructions">Instructions</label>
     <input formControlName="instructions" id="instructions" type="text">
+    <label for="categoryId">categories</label>
+    <select class="categories" name="categoryId" id="categoryId" formControlName="categoryId">
+      <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+    </select>
     <label for="imageFile">Image</label>
     <input class="image-uploader" formControlName="imageFile" id="imageFile" type="file" accept="image/*"
       (change)="loadFile($event)" #file>
@@ -36,3 +40,9 @@
       [disabled]="recipeToEdit ? recipeToEditChanged : !createRecipeForm?.valid">Submit</button>
   </form>
 </div>
+<ng-template #ProgressBar>
+  <div class="progress-bar-header">Loading ...</div>
+  <div class="progress-bar">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-template>
