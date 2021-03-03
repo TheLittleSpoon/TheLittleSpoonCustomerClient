@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Category } from '../interfaces/category';
+import Swal from 'sweetalert2';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +26,12 @@ export class CategoryService {
 
   public getCategories(): Category[] {
     return this.categories;
+  }
+
+  public deleteCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(
+      'http://34.66.166.236:3000/api/categories/delete',
+      category
+    );
   }
 }

@@ -15,12 +15,14 @@ export class CategoriesComponent implements OnInit {
   recipesToShow: Recipe[] = [];
   showRecipes!: boolean;
   title?: string;
+  actionPressed!: boolean;
   constructor(
     private categoryService: CategoryService,
     private recipesService: RecipeService
   ) {
     this.categories = this.categoryService.getCategories();
     this.showRecipes = false;
+    this.actionPressed = false;
   }
 
   ngOnInit(): void {}
@@ -43,5 +45,20 @@ export class CategoriesComponent implements OnInit {
   clearRecipes(): void {
     this.showRecipes = false;
     this.recipesToShow = [];
+  }
+
+  deleteCategory(category: Category): void {
+    this.actionPressed = true;
+    this.categoryService
+      .deleteCategory(category)
+      .toPromise()
+      .then((data) => {
+        Swal.fire('Success', 'Category Deleted!', 'success');
+        this.actionPressed = false;
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Could Not Delete Category!', 'error');
+        this.actionPressed = false;
+      });
   }
 }

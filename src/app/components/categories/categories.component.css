@@ -41,6 +41,12 @@
 
 .container {
   position: relative;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 998;
+  height: 100%;
+  width: 100%;
 }
 
 .image {
@@ -125,11 +131,20 @@
 }
 
 .create-category-icon {
+  color: green;
+}
+
+.create-category-icon:focus,
+.create-category-route:focus {
+  outline: none;
+}
+
+.create-category-route {
+  width: 15px;
   display: flex;
   padding: 3px;
   margin-left: 15px;
   margin-bottom: 5px;
-  color: green;
 }
 
 .add-category-text {
@@ -142,4 +157,22 @@
 .create-category-icon:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: indianred;
+}
+
+.spinner {
+  width: 20%;
+  height: 20%;
+  position: fixed;
+  top: 40%;
+  left: calc(50% - 10%);
+  z-index: 1009;
+  background-repeat: no-repeat;
+  background-size: 97%;
+  animation: bouncing 0.4s cubic-bezier(0.1, 0.25, 0.1, 1) 0s infinite alternate
+    both;
 }

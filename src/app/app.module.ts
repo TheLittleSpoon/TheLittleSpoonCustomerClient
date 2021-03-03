@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,9 +16,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { CreateEditCategoryComponent } from './components/create-edit-category/create-edit-category.component';
 
 @NgModule({
-  declarations: [...APP_COMPONENTS, ...APP_DIRECTIVES, CategoriesComponent],
+  declarations: [
+    ...APP_COMPONENTS,
+    ...APP_DIRECTIVES,
+    CategoriesComponent,
+    CreateEditCategoryComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,6 +38,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
     MatSidenavModule,
     FormsModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { CreateEditCategoryComponent } from './components/create-edit-category/create-edit-category.component';
 import { CreateEditRecipeComponent } from './components/create-edit-recipe/create-edit-recipe.component';
 import { HomeComponent } from './components/home/home.component';
 import { SmallRecipeListComponent } from './components/recipe-list/small-recipe-list/small-recipe-list.component';
@@ -10,6 +11,8 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'create-recipe', component: CreateEditRecipeComponent },
   { path: 'edit-recipe/:id', component: CreateEditRecipeComponent },
+  { path: 'create-category', component: CreateEditCategoryComponent },
+  { path: 'edit-category/:id', component: CreateEditCategoryComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: HomeComponent },
 ];
