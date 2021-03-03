@@ -1,1 +1,26 @@
-<p>create-edit-category works!</p>
+<div *ngIf="!showProgressBar; else ProgressBar" class="create-page">
+  <div class="header">{{categoryToEdit ? 'Edit Category' : 'Create Category'}}</div>
+  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit()" class="form">
+    <label for="categoryName">Category Name</label>
+    <input id="categoryName" formControlName="categoryName" type="text">
+    <label for="imageFile">Image</label>
+    <input id="imageFile" formControlName="imageFile" type="text" [ngModel]="url">
+    <!-- <input class="image-uploader" formControlName="imageFile" id="imageFile" type="file" accept="image/*"
+      (change)="loadFile($event)" #file> -->
+    <!-- <div class="image-buttons">
+      <button type="button" class="image-uploader-button" (click)="file.click()"><i
+          class="fas fa-folder-open"></i></button>
+      <button type="button" class="image-uploader-button" (click)="deleteUrl()"><i
+          class="fas fa-trash-alt"></i></button>
+    </div> -->
+    <img *ngIf="url" id="output" width="200" [src]="url" />
+    <button class="btn-submit" type="submit"
+      [disabled]="categoryToEdit ? categoryToEditChanged : !createCategoryForm?.valid">Submit</button>
+  </form>
+</div>
+<ng-template #ProgressBar>
+  <div class="progress-bar-header">Loading ...</div>
+  <div class="progress-bar">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-template>
