@@ -1,11 +1,16 @@
 <div class="categories-board">
   <div class="title">Categories</div>
+  <i class="fas fa-plus create-category-icon"></i>
   <div class="list-strip">
     <div *ngFor="let category of categories" class="category">
       <div class="category-wrapper">
         <div class="category-name">{{category.name}}</div>
         <div class="container">
           <img src="{{category.imageUrl}}" class="image" (click)="setRecipesToShow(category)">
+          <div class="middle">
+            <span class="text">Edit</span>
+            <span class="text">Delete</span>
+          </div>
         </div>
       </div>
     </div>

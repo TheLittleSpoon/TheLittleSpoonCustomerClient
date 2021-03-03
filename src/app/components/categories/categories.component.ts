@@ -43,6 +43,5 @@ export class CategoriesComponent implements OnInit {
   clearRecipes(): void {
     this.showRecipes = false;
     this.recipesToShow = [];
-    this.title = '';
   }
 }
