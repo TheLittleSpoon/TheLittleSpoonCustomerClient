@@ -121,3 +121,9 @@ img {
 mat-progress-bar {
   width: 70%;
 }
+
+.warning {
+  font-weight: bold;
+  color: rgb(143, 24, 24);
+  margin-top: 4px;
+}

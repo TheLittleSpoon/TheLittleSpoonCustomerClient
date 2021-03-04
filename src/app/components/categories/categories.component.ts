@@ -20,7 +20,9 @@ export class CategoriesComponent implements OnInit {
     private categoryService: CategoryService,
     private recipesService: RecipeService
   ) {
-    this.categories = this.categoryService.getCategories();
+    this.categoryService
+      .getCategories()
+      .subscribe((categories: Category[]) => (this.categories = categories));
     this.showRecipes = false;
     this.actionPressed = false;
   }

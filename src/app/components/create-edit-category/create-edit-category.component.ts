@@ -35,6 +35,7 @@ export class CreateEditCategoryComponent implements OnInit {
   submitted!: boolean;
   showProgressBar!: boolean;
   categories!: Category[];
+  nameExist!: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -45,19 +46,32 @@ export class CreateEditCategoryComponent implements OnInit {
     this.updateCategory = new EventEmitter<Category>();
     this.categoryToEditChanged = true;
     this.showProgressBar = false;
+    this.nameExist = false;
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.categoryToEdit = this.categoryService.getCategory(params.id);
     });
-    this.categories = this.categoryService.getCategories();
+    this.categoryService
+      .getCategories()
+      .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
     this.createCategoryForm.valueChanges.subscribe((newCategory: Category) => {
       const { name, imageUrl } = newCategory;
-      this.categoryToEditChanged =
-        name == this.categoryToEdit?.name &&
-        imageUrl == this.categoryToEdit?.imageUrl;
+      if (
+        this.categories.find(
+          (category: Category) =>
+            category.name == this.createCategoryForm.controls.name?.value
+        )
+      ) {
+        this.nameExist = true;
+      } else {
+        this.nameExist = false;
+        this.categoryToEditChanged =
+          name == this.categoryToEdit?.name &&
+          imageUrl == this.categoryToEdit?.imageUrl;
+      }
       this.url = imageUrl;
     });
   }
@@ -75,12 +89,14 @@ export class CreateEditCategoryComponent implements OnInit {
       name: this.createCategoryForm.controls.name?.value,
       imageUrl: this.url,
     };
-    this.categoryToEdit
-      ? this.categoryService.updateCategory(category)
-      : this.categoryService.saveCategory(category);
-    this.categoryService.saveCategory(category);
-    this.createCategoryForm.reset();
-    this.deleteUrl();
+    if (!this.nameExist) {
+      this.categoryToEdit
+        ? this.categoryService.updateCategory(category)
+        : this.categoryService.saveCategory(category);
+      this.categoryService.saveCategory(category);
+      this.createCategoryForm.reset();
+      this.deleteUrl();
+    }
   }
 
   private initForm(): void {
@@ -90,7 +106,8 @@ export class CreateEditCategoryComponent implements OnInit {
         [Validators.required, Validators.minLength(3)]
       ),
       imageUrl: new FormControl(
-        this.categoryToEdit ? this.categoryToEdit.imageUrl : ''
+        this.categoryToEdit ? this.categoryToEdit.imageUrl : '',
+        [Validators.required]
       ),
     });
     this.categoryToEdit ? (this.url = this.categoryToEdit.imageUrl) : '';

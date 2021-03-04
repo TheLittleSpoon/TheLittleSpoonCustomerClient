@@ -61,8 +61,13 @@ export class CategoryService {
   ];
   constructor(private http: HttpClient, private router: Router) {}
 
-  getCategories(): Category[] {
-    return this.categories;
+  getCategories(): Observable<Category[]> {
+    // return this.http.get<Category[]>(
+    //   'http://34.66.166.236:3000/api/categories/'
+    // );
+    return new Observable<Category[]>((subscriber) =>
+      subscriber.next(this.categories)
+    );
   }
 
   deleteCategory(category: Category): Observable<Category> {

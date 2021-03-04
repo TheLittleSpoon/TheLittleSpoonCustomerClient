@@ -57,7 +57,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     this.route.params.subscribe((params) => {
       this.recipeToEdit = this.recipeService.getRecipe(params.id);
     });
-    this.categories = this.categoryService.getCategories();
+    this.categoryService
+      .getCategories()
+      .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
     this.createRecipeForm.valueChanges.subscribe((newRecipe) => {
       const {
