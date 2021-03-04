@@ -58,25 +58,15 @@ export class CreateEditCategoryComponent implements OnInit {
       this.categoryToEditChanged =
         name == this.categoryToEdit?.name &&
         imageUrl == this.categoryToEdit?.imageUrl;
+      this.url = imageUrl;
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
 
-  loadFile(event: any): void {
-    const selectedImage = event.target.files[0];
-    if (selectedImage) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedImage);
-      reader.onload = (e: any) => {
-        this.url = e.target.result;
-      };
-    }
-  }
-
   deleteUrl(): void {
     this.url = '';
-    this.createCategoryForm.controls.imageFile?.setValue(undefined);
+    this.createCategoryForm.controls.imageUrl?.setValue(undefined);
   }
 
   onSubmit(): void {
@@ -95,11 +85,11 @@ export class CreateEditCategoryComponent implements OnInit {
 
   private initForm(): void {
     this.createCategoryForm = this.fb.group({
-      categoryName: new FormControl(
+      name: new FormControl(
         this.categoryToEdit ? this.categoryToEdit.name : '',
         [Validators.required, Validators.minLength(3)]
       ),
-      imageFile: new FormControl(
+      imageUrl: new FormControl(
         this.categoryToEdit ? this.categoryToEdit.imageUrl : ''
       ),
     });
