@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   selector: 'app-wrapper',
@@ -6,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./wrapper.component.css']
 })
 export class WrapperComponent implements OnInit {
+  currentUser: any;
 
-  constructor() { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(user => this.currentUser = user);
+  }
+
+  logout(): void {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
 
   ngOnInit(): void {
   }

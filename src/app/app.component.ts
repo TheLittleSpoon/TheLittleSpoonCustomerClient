@@ -11,6 +11,7 @@ import {Recipe} from './components/recipe/types/recipe';
 })
 export class AppComponent implements OnInit {
   title = 'the-little-spoon-customer-client';
+  showHeader: boolean = true;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initIconsRegistry();
+    this.showHeader = !(window.location.pathname.indexOf('/login') > -1 || window.location.pathname.indexOf('/register') > -1);
   }
 
   initIconsRegistry(): void {

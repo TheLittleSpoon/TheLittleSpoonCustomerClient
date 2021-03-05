@@ -1,0 +1,97 @@
+.logo {
+  height: 180px;
+  width: 180px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: 'Satisfy', sans-serif;
+  font-size: 40px;
+  margin-top: 20px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+}
+
+input {
+  width: 266px;
+  height: 29px;
+  font-family: Ubuntu;
+  font-size: 24px;
+  background: var(--light-maroon);
+  border-radius: 5px;
+}
+
+.user-input {
+  align-self: flex-end;
+}
+
+label {
+  width: 85px;
+  height: 32px;
+  font-family: Ubuntu;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: var(--maroon);
+  margin-right: 15px;
+}
+
+.register-button {
+  width: 100px;
+  height: fit-content;
+  background-color: var(--orange);
+  border: 1px solid var(--light-maroon);
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Satisfy;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  color: black;
+}
+
+.register-button:hover {
+  background-color: var(--magenta);
+}
+
+.login {
+  width: 324px;
+  height: 56px;
+  font-family: Satisfy;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  color: black;
+  text-decoration: underline;
+}
+
+.login:hover {
+  color: var(--orange);
+}
+
+.invalid-feedback {
+  display: flex;
+  justify-content: center;
+  font-family: Ubuntu;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: var(--error);
+  margin-top: 25px;
+}

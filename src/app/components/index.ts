@@ -8,6 +8,8 @@ import {SearchBarComponent} from './search/search-bar/search-bar.component';
 import {WrapperComponent} from './wrapper/wrapper.component';
 import {SearchComponent} from './search/search.component';
 import {CreateEditRecipeComponent} from './create-edit-recipe/create-edit-recipe.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
 
 export const APP_COMPONENTS = [
   AppComponent,
@@ -19,5 +21,7 @@ export const APP_COMPONENTS = [
   SearchBarComponent,
   WrapperComponent,
   SearchComponent,
-  CreateEditRecipeComponent
+  CreateEditRecipeComponent,
+  LoginComponent,
+  RegisterComponent
 ];
