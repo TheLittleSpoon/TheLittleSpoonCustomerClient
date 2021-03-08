@@ -71,7 +71,7 @@ export class RecipeService {
 
   searchRecipeByName(recipeName: string): void {
     this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
-      recipe.name.includes(recipeName)
+      recipe.name.toLowerCase().includes(recipeName.toLowerCase())
     );
     this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }

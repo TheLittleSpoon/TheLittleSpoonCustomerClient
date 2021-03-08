@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Category } from '../interfaces/category';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
@@ -59,7 +59,11 @@ export class CategoryService {
         'https://easychickenrecipes.com/wp-content/uploads/2019/03/cheesy-asparagus-stuffed-chicken-breast-recipe-4-of-9.jpg',
     },
   ];
-  constructor(private http: HttpClient, private router: Router) {}
+  filteredCategories?: Category[];
+  filteredCategriesEmitter!: EventEmitter<Category[]>;
+  constructor(private http: HttpClient, private router: Router) {
+    this.filteredCategriesEmitter = new EventEmitter<Category[]>();
+  }
 
   getCategories(): Observable<Category[]> {
     // return this.http.get<Category[]>(
@@ -75,6 +79,13 @@ export class CategoryService {
       'http://34.66.166.236:3000/api/categories/delete',
       category
     );
+  }
+
+  searchCategoryByName(categoryName: string): void {
+    this.filteredCategories = this.categories.filter((category: Category) =>
+      category.name.toLowerCase().includes(categoryName.toLowerCase())
+    );
+    this.filteredCategriesEmitter.emit(this.filteredCategories);
   }
 
   saveCategory(category: Category): void {

@@ -6,3 +6,8 @@
 app-small-recipe-list:not(:first-child) {
   margin-top: 20px;
 }
+
+app-search-bar {
+  width: 210px;
+  align-self: center;
+}

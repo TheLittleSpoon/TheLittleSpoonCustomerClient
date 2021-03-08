@@ -20,14 +20,22 @@ export class CategoriesComponent implements OnInit {
     private categoryService: CategoryService,
     private recipesService: RecipeService
   ) {
-    this.categoryService
-      .getCategories()
-      .subscribe((categories: Category[]) => (this.categories = categories));
     this.showRecipes = false;
     this.actionPressed = false;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.categoryService
+      .getCategories()
+      .subscribe((categories: Category[]) => (this.categories = categories));
+
+    this.categoryService.filteredCategriesEmitter.subscribe(
+      (filteredCategories: Category[]) => {
+        this.categories =
+          filteredCategories.length > 0 ? filteredCategories : this.categories;
+      }
+    );
+  }
 
   setRecipesToShow(category?: Category): void {
     this.title = 'Recipes - ' + category?.name;
