@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
@@ -59,7 +58,7 @@ export class RegisterComponent implements OnInit {
 
     this.authenticationService.register(this.formControls.email.value, this.formControls.userName.value, this.formControls.password.value)
       .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: HttpErrorResponse) => {
-      this.error = error.statusText;
+      this.error = error.error;
     });
   }
 }

@@ -1,5 +1,5 @@
-import { RecipeService } from './services/recipe.service';
-import {Component, OnInit} from '@angular/core';
+import {RecipeService} from './services/recipe.service';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Recipe} from './components/recipe/types/recipe';
@@ -9,7 +9,7 @@ import {Recipe} from './components/recipe/types/recipe';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterContentChecked {
   title = 'the-little-spoon-customer-client';
   showHeader: boolean = true;
 
@@ -21,6 +21,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.initIconsRegistry();
+  }
+
+  ngAfterContentChecked(): void {
     this.showHeader = !(window.location.pathname.indexOf('/login') > -1 || window.location.pathname.indexOf('/register') > -1);
   }
 

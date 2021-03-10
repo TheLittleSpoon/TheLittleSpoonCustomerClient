@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.login(this.formControls.email.value, this.formControls.password.value)
       .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: HttpErrorResponse) => {
-      this.error = error.statusText;
+      this.error = error.error;
     });
   }
 }

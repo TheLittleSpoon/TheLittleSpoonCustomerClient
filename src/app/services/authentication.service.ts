@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+import {User} from '../types/user';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -18,11 +19,17 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<any> {
-    const headers = {'content-type': 'application/json', 'Access-Control-Allow-Origin': '*'};
+    const headers = {'content-type': 'application/json'};
     const body: string = JSON.stringify({email, password});
-    return this.http.post('https://35.224.144.255:3000/api/auth/', body, {headers})
-      .pipe(map(user => {
-        // store user details and token in local storage to keep user logged in between page refreshes
+    return this.http.post('http://35.224.144.255:3000/api/auth/', body, {headers, responseType: 'text'})
+      .pipe(map((response: string) => {
+        const user: User = new User();
+        // todo: get username
+        user.email = email;
+        user.token = response;
+        if (user.token === '') {
+          console.log('Error retrieving token');
+        }
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
@@ -30,11 +37,17 @@ export class AuthenticationService {
   }
 
   register(email: string, name: string, password: string): Observable<any> {
-    const headers = {'content-type': 'application/json', 'Access-Control-Allow-Origin': '*'};
+    const headers = {'content-type': 'application/json'};
     const body: string = JSON.stringify({email, password, name});
-    return this.http.post('https://35.224.144.255:3000/api/users/', body, {headers})
-      .pipe(map(user => {
-        // store user details and token in local storage to keep user logged in between page refreshes
+    return this.http.post('http://35.224.144.255:3000/api/users/', body, {headers, observe: 'response'})
+      .pipe(map((response: HttpResponse<any>) => {
+        const user: User = new User();
+        user.email = email;
+        user.name = name;
+        user.token = response.headers.get('x-auth-token') ?? '';
+        if (user.token === '') {
+          console.log('Error retrieving token');
+        }
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
