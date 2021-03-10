@@ -11,6 +11,7 @@ import {
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -57,8 +58,8 @@ export class RegisterComponent implements OnInit {
     }
 
     this.authenticationService.register(this.formControls.email.value, this.formControls.userName.value, this.formControls.password.value)
-      .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: string) => {
-      this.error = error;
+      .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: HttpErrorResponse) => {
+      this.error = error.statusText;
     });
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -18,7 +18,9 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://35.224.144.255:3000/api/auth/', {email, password})
+    const headers = {'content-type': 'application/json', 'Access-Control-Allow-Origin': '*'};
+    const body: string = JSON.stringify({email, password});
+    return this.http.post('https://35.224.144.255:3000/api/auth/', body, {headers})
       .pipe(map(user => {
         // store user details and token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -28,7 +30,9 @@ export class AuthenticationService {
   }
 
   register(email: string, name: string, password: string): Observable<any> {
-    return this.http.post<any>('http://35.224.144.255:3000/api/users/', {email, password, name})
+    const headers = {'content-type': 'application/json', 'Access-Control-Allow-Origin': '*'};
+    const body: string = JSON.stringify({email, password, name});
+    return this.http.post('https://35.224.144.255:3000/api/users/', body, {headers})
       .pipe(map(user => {
         // store user details and token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));

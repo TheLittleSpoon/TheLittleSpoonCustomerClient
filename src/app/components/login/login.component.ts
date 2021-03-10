@@ -3,6 +3,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {first} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -47,8 +48,8 @@ export class LoginComponent implements OnInit {
     }
 
     this.authenticationService.login(this.formControls.email.value, this.formControls.password.value)
-      .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: string) => {
-      this.error = error;
+      .pipe(first()).subscribe(() => this.router.navigate([this.returnUrl || '/home']), (error: HttpErrorResponse) => {
+      this.error = error.statusText;
     });
   }
 }
