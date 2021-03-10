@@ -56,17 +56,6 @@
   justify-content: space-between;
 }
 
-.ingredients-inputs {
-  flex-direction: row;
-  display: flex;
-  margin-top: 6px;
-}
-
-.ingredients-inputs input {
-  margin-right: 5px;
-  width: 120px;
-}
-
 select {
   border: none;
   background-color: antiquewhite;
@@ -131,4 +120,10 @@ img {
 
 mat-progress-bar {
   width: 70%;
+}
+
+.warning {
+  font-weight: bold;
+  color: rgb(143, 24, 24);
+  margin-top: 4px;
 }

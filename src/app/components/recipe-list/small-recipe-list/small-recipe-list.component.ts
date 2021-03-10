@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./small-recipe-list.component.css'],
 })
 export class SmallRecipeListComponent implements OnInit {
-  @Input() title = '';
+  @Input() title? = '';
   @Input() recipes: Recipe[] = [];
 
   constructor(private router: Router, private recipeService: RecipeService) {}
@@ -26,9 +26,7 @@ export class SmallRecipeListComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result: any) => {
       if (result.value) {
-        this.recipeService.deleteRecipe(recipe).subscribe((data) => {
-          // Swal.fire('Deleted!', recipe.name + ' has been deleted.', 'success');
-        });
+        this.recipeService.deleteRecipe(recipe).subscribe((data) => {});
         Swal.fire(
           'Deleted!',
           recipe.name + ' recipe has been deleted.',

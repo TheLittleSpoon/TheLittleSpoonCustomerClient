@@ -1,5 +1,5 @@
-<form [formGroup]="recipeSearchForm" class="search-container" (ngSubmit)="onSubmit()">
-  <input placeholder="search recipe name..." id="recipeName" formControlName="recipeName">
+<form [formGroup]="objectSearchForm" class="search-container" (ngSubmit)="onSubmit()">
+  <input placeholder="search by name..." id="objectName" formControlName="objectName">
   <button type="submit" class="btn-success">
     <i class="fas fa-search" type="submit"></i>
   </button>

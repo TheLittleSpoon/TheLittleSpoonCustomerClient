@@ -1,0 +1,19 @@
+<div *ngIf="!showProgressBar; else ProgressBar" class="create-page">
+  <div class="header">{{categoryToEdit ? 'Edit Category' : 'Create Category'}}</div>
+  <form [formGroup]="createCategoryForm" (ngSubmit)="onSubmit()" class="form">
+    <label for="name">Category Name</label>
+    <input id="name" formControlName="name" type="text">
+    <span *ngIf="nameExist" class="warning">Name is already exist</span>
+    <label for="imageUrl">Image</label>
+    <input id="imageUrl" formControlName="imageUrl" type="text">
+    <img *ngIf="url" id="output" width="200" [src]="url" />
+    <button class="btn-submit" type="submit"
+      [disabled]="categoryToEdit ? (categoryToEditChanged || nameExist) : (!createCategoryForm?.valid || nameExist)">Submit</button>
+  </form>
+</div>
+<ng-template #ProgressBar>
+  <div class="progress-bar-header">Loading ...</div>
+  <div class="progress-bar">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-template>

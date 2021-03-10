@@ -2,7 +2,7 @@
   <mat-drawer #drawer class="drawer-sidenav" mode="side" (clickOutside)="drawer.close()">
     <nav class="nav-list">
       <a class="button" routerLink="/home" (click)="drawer.close()">Home</a>
-      <a class="button" routerLink="/search-recipe" (click)="drawer.close()">Search recipe</a>
+      <a class="button" routerLink="/categories" (click)="drawer.close()">Categories</a>
       <a class="button" routerLink="/create-recipe" (click)="drawer.close()">Create recipe</a>
       <a class="button" (click)="drawer.close(); logout();">Logout</a>
     </nav>
