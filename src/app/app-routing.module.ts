@@ -14,7 +14,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent , canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'search-recipe', component: SearchComponent },
   { path: 'create-recipe', component: CreateEditRecipeComponent },
   { path: 'edit-recipe/:id', component: CreateEditRecipeComponent },
   { path: 'create-category', component: CreateEditCategoryComponent },
