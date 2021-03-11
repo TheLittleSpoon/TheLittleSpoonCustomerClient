@@ -24,7 +24,7 @@ export class SmallRecipeListComponent implements OnInit {
       confirmButtonText: 'Yes',
       showCancelButton: true,
       cancelButtonText: 'No',
-    }).then((result) => {
+    }).then((result: any) => {
       if (result.value) {
         this.recipeService.deleteRecipe(recipe).subscribe((data) => {});
         Swal.fire(
