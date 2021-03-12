@@ -1,4 +1,4 @@
-import { Ingredient } from './ingredient';
+import {Ingredient} from './ingredient';
 
 export class Recipe {
   id?: number;
@@ -7,4 +7,5 @@ export class Recipe {
   ingredients!: Ingredient[];
   instructions!: string[];
   categoryId!: number;
+  author!: string;
 }

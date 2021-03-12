@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Category } from '../interfaces/category';
+import {EventEmitter, Injectable} from '@angular/core';
+import {Category} from '../interfaces/category';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 import {RequestService} from './request.service';
+import {map} from 'rxjs/operators';
+import {Recipe} from '../components/recipe/types/recipe';
 
 @Injectable({
   providedIn: 'root',
@@ -62,15 +63,13 @@ export class CategoryService {
   ];
   filteredCategories?: Category[];
   filteredCategriesEmitter!: EventEmitter<Category[]>;
+
   constructor(private requestService: RequestService, private router: Router) {
     this.filteredCategriesEmitter = new EventEmitter<Category[]>();
   }
 
   getCategories(): Observable<Category[]> {
     return this.requestService.get('/api/categories/', false);
-    // return new Observable<Category[]>((subscriber) =>
-    //   subscriber.next(this.categories)
-    // );
   }
 
   deleteCategory(category: Category): Observable<Category> {
@@ -78,10 +77,11 @@ export class CategoryService {
   }
 
   searchCategoryByName(categoryName: string): void {
-    this.filteredCategories = this.categories.filter((category: Category) =>
-      category.name.toLowerCase().includes(categoryName.toLowerCase())
-    );
-    this.filteredCategriesEmitter.emit(this.filteredCategories);
+    this.getCategories().subscribe((categories: Category[]) => {
+      this.filteredCategories = categories.filter((category: Category) =>
+        category.name.toLowerCase().includes(categoryName.toLowerCase()));
+      this.filteredCategriesEmitter.emit(this.filteredCategories);
+    });
   }
 
   saveCategory(category: Category): void {
@@ -98,8 +98,9 @@ export class CategoryService {
       });
   }
 
-  getCategory(id: number): Category | undefined {
-    return this.categories.find((category: Category) => category.id === id);
+  getCategory(id: number): Observable<Category | undefined> {
+    return this.getCategories().pipe(map(
+      (categories: Category[]) => categories.find((category: Category) => category.id === id)));
   }
 
   updateCategory(category: Category): void {

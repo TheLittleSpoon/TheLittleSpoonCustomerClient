@@ -14,13 +14,15 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { Recipe } from '../recipe/types/recipe';
-import { UnitEnum } from '../recipe/types/unit.enum';
-import { Ingredient } from '../recipe/types/ingredient';
-import { RecipeService } from '../../services/recipe.service';
-import { ActivatedRoute } from '@angular/router';
-import { CategoryService } from 'src/app/services/categories.service';
-import { Category } from 'src/app/interfaces/category';
+import {Recipe} from '../recipe/types/recipe';
+import {UnitEnum} from '../recipe/types/unit.enum';
+import {Ingredient} from '../recipe/types/ingredient';
+import {RecipeService} from '../../services/recipe.service';
+import {ActivatedRoute} from '@angular/router';
+import {CategoryService} from 'src/app/services/categories.service';
+import {Category} from 'src/app/interfaces/category';
+import {AuthenticationService} from '../../services/authentication.service';
+import {User} from '../../types/user';
 
 @Component({
   selector: 'app-create-edit-recipe',
@@ -40,25 +42,24 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   submitted!: boolean;
   showProgressBar!: boolean;
   readonly unitEnum: typeof UnitEnum = UnitEnum;
+  private currentUser: any;
 
-  constructor(
-    private fb: FormBuilder,
-    private recipeService: RecipeService,
-    private categoryService: CategoryService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder,
+              private recipeService: RecipeService,
+              private categoryService: CategoryService,
+              private route: ActivatedRoute,
+              private authenticationService: AuthenticationService) {
     this.saveRecipe = new EventEmitter<Recipe>();
     this.updateRecipe = new EventEmitter<Recipe>();
     this.recipeToEditChanged = true;
     this.showProgressBar = false;
+    this.authenticationService.currentUser.subscribe((user: User | null) => this.currentUser = user);
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.recipeToEdit = this.recipeService.getRecipe(params.id);
-    });
-    this.categoryService
-      .getCategories()
+    this.route.params.subscribe((params) =>
+      this.recipeService.getRecipe(params.id).subscribe((recipe: Recipe | undefined) => this.recipeToEdit = recipe));
+    this.categoryService.getCategories()
       .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
     this.createRecipeForm.valueChanges.subscribe((newRecipe) => {
@@ -70,16 +71,17 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         imageFile,
       } = newRecipe;
       this.recipeToEditChanged =
-        recipeName == this.recipeToEdit?.name &&
-        categoryId == this.recipeToEdit?.categoryId &&
-        instructions == this.recipeToEdit?.instructions &&
-        JSON.stringify(ingredients) ==
-          JSON.stringify(this.recipeToEdit?.ingredients) &&
-        imageFile == this.recipeToEdit?.imageUrl;
+        recipeName === this.recipeToEdit?.name &&
+        categoryId === this.recipeToEdit?.categoryId &&
+        instructions === this.recipeToEdit?.instructions &&
+        JSON.stringify(ingredients) ===
+        JSON.stringify(this.recipeToEdit?.ingredients) &&
+        imageFile === this.recipeToEdit?.imageUrl;
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   loadFile(event: any): void {
     const selectedImage = event.target.files[0];
@@ -134,6 +136,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       instructions: this.createRecipeForm.controls.instructions?.value,
       imageUrl: this.url,
       ingredients: ingredientsArray,
+      author: this.currentUser.id
     };
     this.recipeToEdit
       ? this.recipeService.updateRecipe(recipe)
@@ -143,7 +146,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     this.deleteUrl();
   }
 
-  private addIngredients(ingredients: Ingredient[]) {
+  private addIngredients(ingredients: Ingredient[]): void {
     ingredients.forEach((ingredient) => this.addIngredient(ingredient));
   }
 
@@ -166,9 +169,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       ),
       ingredients: this.fb.array([], Validators.required),
     });
-    this.recipeToEdit
-      ? (this.url = this.recipeToEdit.imageUrl) &&
-        this.addIngredients(this.recipeToEdit.ingredients)
-      : '';
+    if (this.recipeToEdit) {
+      this.url = this.recipeToEdit.imageUrl;
+      this.addIngredients(this.recipeToEdit.ingredients);
+    }
   }
 }

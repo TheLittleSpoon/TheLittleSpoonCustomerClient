@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
+import {AuthenticationService} from '../../../services/authentication.service';
+import {User} from '../../../types/user';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +11,11 @@ import {Subject} from 'rxjs';
 export class HeaderComponent implements OnInit {
   @Input() userName: string = 'user';
   @Output() burgerClick: Subject<void> = new Subject<void>();
+  isAdmin: boolean = false;
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) {
+    this.isAdmin = this.authenticationService.currentUserValue?.isAdmin ?? false;
+  }
 
   ngOnInit(): void {
   }
@@ -18,5 +23,9 @@ export class HeaderComponent implements OnInit {
   onBurgerClicked($event: MouseEvent): void {
     this.burgerClick.next();
     $event.stopPropagation();
+  }
+
+  adminRedirect(): void {
+    window.location.href = 'http://34.68.121.245/';
   }
 }

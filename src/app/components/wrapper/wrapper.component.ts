@@ -12,7 +12,7 @@ export class WrapperComponent implements OnInit {
   currentUser: any;
 
   constructor(private router: Router, private authenticationService: AuthenticationService) {
-    this.authenticationService.currentUser.subscribe((user: User) => this.currentUser = user);
+    this.authenticationService.currentUser.subscribe((user: User | null) => this.currentUser = user);
   }
 
   logout(): void {

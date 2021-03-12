@@ -6,7 +6,7 @@ import {User} from '../types/user';
 
 @Injectable()
 export class RequestService {
-  private readonly serverPath: string = 'http://35.224.144.255:300';
+  private readonly serverPath: string = 'http://35.224.144.255:3000';
   constructor(private http: HttpClient) {
   }
 
