@@ -4,6 +4,7 @@ import { Category } from '../interfaces/category';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import {RequestService} from './request.service';
 
 @Injectable({
   providedIn: 'root',
@@ -61,24 +62,19 @@ export class CategoryService {
   ];
   filteredCategories?: Category[];
   filteredCategriesEmitter!: EventEmitter<Category[]>;
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private requestService: RequestService, private router: Router) {
     this.filteredCategriesEmitter = new EventEmitter<Category[]>();
   }
 
   getCategories(): Observable<Category[]> {
-    // return this.http.get<Category[]>(
-    //   'http://34.66.166.236:3000/api/categories/'
+    return this.requestService.get('/api/categories/', false);
+    // return new Observable<Category[]>((subscriber) =>
+    //   subscriber.next(this.categories)
     // );
-    return new Observable<Category[]>((subscriber) =>
-      subscriber.next(this.categories)
-    );
   }
 
   deleteCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(
-      'http://34.66.166.236:3000/api/categories/delete',
-      category
-    );
+    return this.requestService.post('/api/categories/delete', category);
   }
 
   searchCategoryByName(categoryName: string): void {
@@ -89,11 +85,8 @@ export class CategoryService {
   }
 
   saveCategory(category: Category): void {
-    this.http
-      .post<Category>(
-        'http://34.66.166.236/:3000/api/categories/create',
-        category
-      )
+    this.requestService
+      .post('/api/categories/create', category)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Category Saved!', 'success');
@@ -105,16 +98,13 @@ export class CategoryService {
       });
   }
 
-  getCategory(id: number) {
-    return this.categories.find((category: Category) => category.id == id);
+  getCategory(id: number): Category | undefined {
+    return this.categories.find((category: Category) => category.id === id);
   }
 
   updateCategory(category: Category): void {
-    this.http
-      .post<Category>(
-        'http://34.66.166.236/:3000/api/categories/update',
-        category
-      )
+    this.requestService
+      .post('/api/categories/update', category)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Category Saved!', 'success');

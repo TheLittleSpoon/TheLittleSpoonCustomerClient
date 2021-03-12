@@ -15,15 +15,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
-import { CategoriesComponent } from './components/categories/categories.component';
-import { CreateEditCategoryComponent } from './components/create-edit-category/create-edit-category.component';
+import {APP_SERVICES} from './services';
 
 @NgModule({
   declarations: [
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
-    CategoriesComponent,
-    CreateEditCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +37,7 @@ import { CreateEditCategoryComponent } from './components/create-edit-category/c
     MatProgressBarModule,
     MatProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [...APP_SERVICES],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

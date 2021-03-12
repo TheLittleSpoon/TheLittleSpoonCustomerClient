@@ -9,6 +9,8 @@ import { WrapperComponent } from './wrapper/wrapper.component';
 import { CreateEditRecipeComponent } from './create-edit-recipe/create-edit-recipe.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
+import {CategoriesComponent} from './categories/categories.component';
+import {CreateEditCategoryComponent} from './create-edit-category/create-edit-category.component';
 
 export const APP_COMPONENTS = [
   AppComponent,
@@ -21,5 +23,7 @@ export const APP_COMPONENTS = [
   WrapperComponent,
   CreateEditRecipeComponent,
   LoginComponent,
-  RegisterComponent
+  RegisterComponent,
+  CategoriesComponent,
+  CreateEditCategoryComponent,
 ];
