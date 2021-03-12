@@ -5,6 +5,7 @@ import { UnitEnum } from '../components/recipe/types/unit.enum';
 import { Recipe } from '../components/recipe/types/recipe';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import {RequestService} from './request.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,13 +38,13 @@ export class RecipeService {
   ];
   filteredRecipes?: Recipe[];
   filteredRecipesEmitter!: EventEmitter<Recipe[]>;
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private requestService: RequestService, private router: Router) {
     this.filteredRecipesEmitter = new EventEmitter<Recipe[]>();
   }
 
   saveRecipe(recipe: Recipe): void {
-    this.http
-      .post<Recipe>('http://34.66.166.236/:3000/api/recipes/create', recipe)
+    this.requestService
+      .post('/api/recipes/create', recipe)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -56,8 +57,8 @@ export class RecipeService {
   }
 
   updateRecipe(recipe: Recipe): void {
-    this.http
-      .post<Recipe>('http://34.66.166.236/:3000/api/recipes/update', recipe)
+    this.requestService
+      .post('/api/recipes/update', recipe)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -77,32 +78,14 @@ export class RecipeService {
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.http.post<Recipe>(
-      'http://34.66.166.236:3000/api/recipes/delete',
-      recipe
-    );
+    return this.requestService.post('/api/recipes/delete', recipe);
   }
 
   getRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>('http://34.66.166.236:3000/api/recipes/');
+    return this.requestService.get('/api/recipes/');
   }
 
-  getRecipe(id: number) {
-    return this.recipes.find((recipe) => recipe.id == id);
-  }
-
-  private handleError(error: HttpErrorResponse): Observable<any> {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`
-      );
-    }
-    // Return an observable with a user-facing error message.
-    return throwError('Something bad happened; please try again later.');
+  getRecipe(id: number): Recipe | undefined {
+    return this.recipes.find((recipe) => recipe.id === id);
   }
 }
