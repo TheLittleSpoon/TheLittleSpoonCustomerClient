@@ -69,10 +69,25 @@ export class RecipeService {
       });
   }
 
-  searchRecipeByName(recipeName: string): void {
-    this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
-      recipe.name.toLowerCase().includes(recipeName.toLowerCase())
-    );
+  searchRecipe(
+    recipeName: string,
+    categoryId: number,
+    ingredientName: string
+  ): void {
+    this.http
+      .post<Recipe[]>('http://34.66.166.236:3000/api/recipes/filter', {
+        recipeName,
+        categoryId,
+        ingredientName,
+      })
+      .toPromise()
+      .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
+      .catch((error) => {
+        Swal.fire('Error', 'Could Not Search!', 'error');
+      });
+    // this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
+    //   recipe.name.toLowerCase().includes(recipeName.toLowerCase())
+    // );
     this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 

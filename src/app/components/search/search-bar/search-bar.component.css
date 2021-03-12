@@ -1,15 +1,9 @@
 .search-container {
   background-color: var(--pink);
-  border-radius: 10px;
+  border-radius: 7px;
   height: 25px;
-  display: flex;
   align-items: center;
   padding: 2px;
-  margin-right: 15px;
-}
-
-.search-container input {
-  background-color: var(--pink);
   border: none;
 }
 
@@ -17,7 +11,21 @@
   color: rgb(34, 34, 34);
 }
 
-.search-container input:focus {
+.search-container:focus {
+  outline: none;
+}
+
+.ingredient-container {
+  background-color: var(--pink);
+  border-radius: 7px;
+  height: 25px;
+  align-items: center;
+  padding: 2px;
+  border: none;
+  margin-left: 15px;
+}
+
+.ingredient-container:focus {
   outline: none;
 }
 
@@ -31,8 +39,35 @@
 }
 
 .btn-success {
-  background-color: var(--pink);
-  margin-right: 4px;
+  background-color: rgb(165, 121, 121);
   border: none;
+  border-radius: 7px;
   outline: none;
+  margin-left: 15px;
+}
+
+.btn-success:hover {
+  cursor: pointer;
+  background-color: rgb(202, 108, 108);
+}
+
+.categories {
+  border: none;
+  background-color: var(--pink);
+  border-radius: 7px;
+  height: 28px;
+  width: 200px;
+  margin-left: 20px;
+  color: rgb(34, 34, 34);
+}
+
+.categories:focus {
+  outline: none;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  border-radius: 7px;
+  margin-top: 20px;
 }
