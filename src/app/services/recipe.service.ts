@@ -5,7 +5,7 @@ import { UnitEnum } from '../components/recipe/types/unit.enum';
 import { Recipe } from '../components/recipe/types/recipe';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import {RequestService} from './request.service';
+import { RequestService } from './request.service';
 
 @Injectable({
   providedIn: 'root',
@@ -75,15 +75,15 @@ export class RecipeService {
     categoryId: number,
     ingredientName: string
   ): void {
-    this.http
-      .post<Recipe[]>('http://34.66.166.236:3000/api/recipes/filter', {
+    this.requestService
+      .post('http://34.66.166.236:3000/api/recipes/filter', {
         recipeName,
         categoryId,
         ingredientName,
       })
       .toPromise()
       .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
-      .catch((error) => {
+      .catch(() => {
         Swal.fire('Error', 'Could Not Search!', 'error');
       });
     // this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
