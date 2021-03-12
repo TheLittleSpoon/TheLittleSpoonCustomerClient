@@ -86,8 +86,6 @@ export class RecipeService {
       .catch(() => {
         Swal.fire('Error', 'Could Not Search!', 'error');
       });
-    // this.filteredRecipes = this.recipes.filter((recipe: Recipe) =>
-    //   recipe.name.toLowerCase().includes(recipeName.toLowerCase())
     // );
     this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
@@ -101,6 +99,6 @@ export class RecipeService {
   }
 
   getRecipe(id: number): Recipe | undefined {
-    return this.recipes.find((recipe) => recipe.id === id);
+    return this.recipes.find((recipe: Recipe) => recipe.id == id);
   }
 }
