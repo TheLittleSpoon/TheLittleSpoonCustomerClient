@@ -11,6 +11,7 @@ const ADMIN_CLIENT_PATH = 'http://34.68.121.245/';
 })
 export class HeaderComponent implements OnInit {
   @Input() userName: string = 'user';
+  @Input() connectedUsers: number = 0;
   @Output() burgerClick: Subject<void> = new Subject<void>();
   isAdmin: boolean = false;
 
@@ -35,6 +36,6 @@ export class HeaderComponent implements OnInit {
     if (this.isIFrame(frame) && frame.contentWindow) {
       frame.contentWindow.postMessage(postMsg, ADMIN_CLIENT_PATH);
     }
-    window.open(ADMIN_CLIENT_PATH, '_self');
+    window.location.href = ADMIN_CLIENT_PATH;
   }
 }
