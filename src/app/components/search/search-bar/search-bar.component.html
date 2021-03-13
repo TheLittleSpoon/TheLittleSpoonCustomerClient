@@ -2,7 +2,7 @@
   <input class="search-container" placeholder="Search by name..." id="objectName" formControlName="objectName">
   <select *ngIf="objectType === 1" class="categories" name="categoryId" id="categoryId" formControlName="categoryId">
     <option value="" disabled selected>Category...</option>
-    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+    <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
   </select>
   <input *ngIf="objectType === 1" class="ingredient-container" placeholder="Ingredient..." id="ingredientName"
     formControlName="ingredientName">

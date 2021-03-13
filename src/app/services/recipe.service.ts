@@ -4,6 +4,7 @@ import {Recipe} from '../components/recipe/types/recipe';
 import Swal from 'sweetalert2';
 import {Router} from '@angular/router';
 import {RequestService} from './request.service';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
