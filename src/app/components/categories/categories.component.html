@@ -8,9 +8,9 @@
     <div *ngFor="let category of categories" class="category">
       <div class="category-wrapper">
         <div class="category-name">{{category.name}}</div>
-        <div class="container" [ngClass]="{'hoverable': isAdmin}">
+        <div class="container">
           <img src="{{category.imageUrl}}" class="image" (click)="setRecipesToShow(category)">
-          <div *ngIf="!actionPressed; else Load" class="middle" [ngClass]="{'hoverable': isAdmin}">
+          <div *ngIf="!actionPressed || isAdmin; else Load" class="middle">
             <span class="text" routerLink="/edit-category/{{category._id}}">Edit</span>
             <span class="text" (click)="deleteCategory(category)">Delete</span>
           </div>
