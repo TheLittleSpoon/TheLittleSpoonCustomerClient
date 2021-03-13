@@ -11,17 +11,21 @@ import {User} from '../../../types/user';
   templateUrl: './small-recipe-list.component.html',
   styleUrls: ['./small-recipe-list.component.css'],
 })
-export class SmallRecipeListComponent implements OnInit {
-  @Input() title ? = '';
-  @Input() recipes: Recipe[] = [];
+export class SmallRecipeListComponent {
+  @Input() title? = '';
+  @Input() recipes?: Recipe[] = [];
   userId!: string;
+  isAdmin?: boolean;
 
-  constructor(private router: Router, private recipeService: RecipeService,
-              private authenticationService: AuthenticationService) {
-    this.authenticationService.currentUser.subscribe((user: User | null) => this.userId = user?.id ?? '');
-  }
-
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private recipeService: RecipeService,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe((user: User | null) => {
+      this.userId = user?.id ?? '';
+      this.isAdmin = user?.isAdmin;
+    });
   }
 
   deleteRecipe(recipe: Recipe): void {
@@ -33,14 +37,30 @@ export class SmallRecipeListComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result: any) => {
       if (result.value) {
-        this.recipeService.deleteRecipe(recipe).subscribe((data) => {
-        });
-        Swal.fire(
-          'Deleted!',
-          recipe.name + ' recipe has been deleted.',
-          'success'
-        );
+        this.recipeService
+          .deleteRecipe(recipe)
+          .toPromise()
+          .then((data) => {
+            this.recipeService
+              .getRecipes()
+              .subscribe((recipesFromServer: Recipe[]) => {
+                this.recipes = recipesFromServer;
+                Swal.fire(
+                  'Deleted!',
+                  recipe.name + ' recipe has been deleted.',
+                  'success'
+                );
+              });
+          })
+          .catch((error) => {
+            Swal.fire('Error', 'Could Not Delete Recipe!', 'error');
+            this.router.navigate(['home']);
+          });
       }
     });
+  }
+
+  navigateRecipe(_id: string): void {
+    this.router.navigate(['/recipe/' + _id]);
   }
 }

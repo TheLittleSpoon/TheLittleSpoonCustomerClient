@@ -16,14 +16,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
 import {APP_SERVICES} from './services';
-import { CategoriesGraphComponent } from './components/categories-graph/categories-graph.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
-  declarations: [
-    ...APP_COMPONENTS,
-    ...APP_DIRECTIVES,
-    CategoriesGraphComponent,
-  ],
+  declarations: [...APP_COMPONENTS, ...APP_DIRECTIVES],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +34,7 @@ import { CategoriesGraphComponent } from './components/categories-graph/categori
     FormsModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    ScrollingModule,
   ],
   providers: [...APP_SERVICES],
   bootstrap: [AppComponent],

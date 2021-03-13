@@ -1,10 +1,10 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Recipe} from '../components/recipe/types/recipe';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Recipe } from '../components/recipe/types/recipe';
 import Swal from 'sweetalert2';
-import {Router} from '@angular/router';
-import {RequestService} from './request.service';
-import {map} from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { RequestService } from './request.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -48,23 +48,22 @@ export class RecipeService {
       });
   }
 
-  searchRecipe(
-    recipeName: string,
-    categoryId: number,
-    ingredientName: string
-  ): void {
+  searchRecipe(name: string, category: string, ingredient: string): void {
     this.requestService
-      .post('/api/recipes/filter', {
-        recipeName,
-        categoryId,
-        ingredientName,
+      .post('/api/recipes/byFilter', {
+        name,
+        category,
+        ingredient,
       })
       .toPromise()
-      .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
+      .then((recipes: Recipe[]) => {
+        this.filteredRecipes = recipes;
+        console.log(this.filteredRecipes);
+        this.filteredRecipesEmitter.emit(this.filteredRecipes);
+      })
       .catch(() => {
         Swal.fire('Error', 'Could Not Search!', 'error');
       });
-    this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
@@ -82,8 +81,11 @@ export class RecipeService {
   }
 
   getRecipe(id: string): Observable<Recipe | undefined> {
-    return this.getRecipes().pipe(map(
-      (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe._id === id)));
+    return this.getRecipes().pipe(
+      map((recipes: Recipe[]) =>
+        recipes.find((recipe: Recipe) => recipe._id === id)
+      )
+    );
   }
 
   getGroupByCategory(): Observable<any> {

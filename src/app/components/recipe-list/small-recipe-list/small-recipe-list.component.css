@@ -28,9 +28,10 @@
 }
 
 .recipe-name {
-  font-size: 20px;
+  font-size: 14.5px;
   font-family: "Ubuntu", sans-serif;
   margin-bottom: 8px;
+  height: 50px;
 }
 
 .container {
@@ -58,15 +59,16 @@
   -ms-transform: translate(-50%, -50%);
 }
 
-.middle.hoverable:hover {
+.middle:hover {
   cursor: pointer;
 }
 
-.container.hoverable:hover .image {
+.container:hover .image {
   opacity: 0.3;
+  cursor: pointer;
 }
 
-.container.hoverable:hover .middle {
+.container:hover .middle {
   opacity: 1;
 }
 

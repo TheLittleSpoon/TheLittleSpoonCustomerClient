@@ -1,16 +1,16 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Category} from '../interfaces/category';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Category } from '../interfaces/category';
 import Swal from 'sweetalert2';
-import {Observable} from 'rxjs';
-import {Router} from '@angular/router';
-import {RequestService} from './request.service';
-import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { RequestService } from './request.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  categories: Category[] = [];
+  private categories: Category[] = [];
   filteredCategories?: Category[];
   filteredCategoriesEmitter!: EventEmitter<Category[]>;
 
@@ -27,11 +27,19 @@ export class CategoryService {
   }
 
   searchCategoryByName(categoryName: string): void {
-    this.getCategories().subscribe((categories: Category[]) => {
-      this.filteredCategories = categories.filter((category: Category) =>
-        category.name.toLowerCase().includes(categoryName.toLowerCase()));
-      this.filteredCategoriesEmitter.emit(this.filteredCategories);
-    });
+    if (categoryName === '') {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories;
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
+      });
+    } else {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories.filter((category: Category) =>
+          category.name.toLowerCase().includes(categoryName.toLowerCase())
+        );
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
+      });
+    }
   }
 
   saveCategory(category: Category): void {
@@ -50,8 +58,11 @@ export class CategoryService {
   }
 
   getCategory(id: string): Observable<Category | undefined> {
-    return this.getCategories().pipe(map(
-      (categories: Category[]) => categories.find((category: Category) => category._id === id)));
+    return this.getCategories().pipe(
+      map((categories: Category[]) =>
+        categories.find((category: Category) => category._id === id)
+      )
+    );
   }
 
   updateCategory(category: Category): void {
@@ -61,11 +72,11 @@ export class CategoryService {
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Category Saved!', 'success');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       })
       .catch((error) => {
         Swal.fire('Error', 'Could Not Save Category!', 'error');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       });
   }
 }

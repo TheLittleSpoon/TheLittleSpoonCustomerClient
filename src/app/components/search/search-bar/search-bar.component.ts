@@ -61,25 +61,23 @@ export class SearchBarComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.objectSearchForm.controls['objectName'].value != '') {
-      switch (this.objectType) {
-        case Object.recipe: {
-          this.recipeService.searchRecipe(
-            this.objectSearchForm.controls['objectName'].value,
-            this.objectSearchForm.controls['categoryId'].value,
-            this.objectSearchForm.controls['ingredientName'].value
-          );
-          break;
-        }
-        case Object.category: {
-          this.categoryService.searchCategoryByName(
-            this.objectSearchForm.controls['objectName'].value
-          );
-          break;
-        }
-        default: {
-          break;
-        }
+    switch (this.objectType) {
+      case Object.recipe: {
+        this.recipeService.searchRecipe(
+          this.objectSearchForm.controls['objectName'].value,
+          this.objectSearchForm.controls['categoryId'].value,
+          this.objectSearchForm.controls['ingredientName'].value
+        );
+        break;
+      }
+      case Object.category: {
+        this.categoryService.searchCategoryByName(
+          this.objectSearchForm.controls['objectName'].value
+        );
+        break;
+      }
+      default: {
+        break;
       }
     }
   }

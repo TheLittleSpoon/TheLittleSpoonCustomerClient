@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Category} from 'src/app/interfaces/category';
-import {CategoryService} from 'src/app/services/categories.service';
-import {RecipeService} from 'src/app/services/recipe.service';
-import {Recipe} from '../recipe/types/recipe';
+import { Component, OnInit } from '@angular/core';
+import { Category } from 'src/app/interfaces/category';
+import { CategoryService } from 'src/app/services/categories.service';
+import { RecipeService } from 'src/app/services/recipe.service';
+import { Recipe } from '../recipe/types/recipe';
 import Swal from 'sweetalert2';
-import {AuthenticationService} from '../../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-categories',
@@ -19,18 +19,24 @@ export class CategoriesComponent implements OnInit {
   actionPressed!: boolean;
   isAdmin: boolean = false;
 
-  constructor(private categoryService: CategoryService,
-              private recipesService: RecipeService,
-              private authenticationService: AuthenticationService) {
+  constructor(
+    private categoryService: CategoryService,
+    private recipesService: RecipeService,
+    private authenticationService: AuthenticationService
+  ) {
     this.showRecipes = false;
     this.actionPressed = false;
-    this.authenticationService.currentUser.subscribe(value => this.isAdmin = value?.isAdmin ?? false);
+    this.authenticationService.currentUser.subscribe(
+      (value) => (this.isAdmin = value?.isAdmin ?? false)
+    );
   }
 
   ngOnInit(): void {
-    this.categoryService
-      .getCategories()
-      .subscribe((categories: Category[]) => (this.categories = categories));
+    this.recipesService.loadRecipes();
+    this.categoryService.getCategories().subscribe((categories: Category[]) => {
+      this.categories = categories;
+      this.setRecipesToShow();
+    });
 
     this.categoryService.filteredCategoriesEmitter.subscribe(
       (filteredCategories: Category[]) => {
@@ -40,18 +46,19 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  setRecipesToShow(category?: Category): void {
-    this.title = 'Recipes - ' + category?.name;
+  setRecipesToShow(): void {
     if (this.showRecipes) {
       this.clearRecipes();
     }
-    this.recipesService.getRecipes().subscribe(recipes => {
-      this.recipesToShow = recipes.filter((recipe: Recipe) => recipe.categoryId === category?._id);
-      if (this.recipesToShow.length > 0) {
-        this.showRecipes = true;
-      } else {
-        Swal.fire('Error', 'No Recipe Found', 'error');
-      }
+    this.categories.forEach((category: Category) => {
+      this.recipesService.getRecipes().subscribe((recipes) => {
+        category.recipes = recipes.filter(
+          (recipe: Recipe) => recipe.categories === category?._id
+        );
+        if (this.recipesToShow.length > 0) {
+          this.showRecipes = true;
+        }
+      });
     });
   }
 
@@ -66,6 +73,12 @@ export class CategoriesComponent implements OnInit {
       .deleteCategory(category)
       .toPromise()
       .then((data) => {
+        this.categoryService
+          .getCategories()
+          .subscribe((categories: Category[]) => {
+            this.categories = categories;
+            this.setRecipesToShow();
+          });
         Swal.fire('Success', 'Category Deleted!', 'success');
         this.actionPressed = false;
       })

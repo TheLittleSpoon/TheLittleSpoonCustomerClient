@@ -5,32 +5,39 @@
     <i class="fas fa-plus create-category-icon"></i>
   </div>
   <div class="list-strip" *ngIf="!!categories; else Load">
-    <div *ngFor="let category of categories" class="category">
-      <div class="category-wrapper">
-        <div class="category-name">{{category.name}}</div>
-        <div class="container" [ngClass]="{'hoverable': isAdmin}">
-          <img src="{{category.imageUrl}}" class="image" (click)="setRecipesToShow(category)">
-          <div *ngIf="!actionPressed; else Load" class="middle" [ngClass]="{'hoverable': isAdmin}">
-            <span class="text" routerLink="/edit-category/{{category._id}}">Edit</span>
-            <span class="text" (click)="deleteCategory(category)">Delete</span>
-          </div>
-          <ng-template #Load>
-            <div class="middle-pb">
-              <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+    <cdk-virtual-scroll-viewport itemSize="5" style="height: 290px">
+      <div *cdkVirtualFor="let category of categories" class="category">
+        <div class="category-wrapper">
+          <div class="header">
+            <div class="category-name">{{category.name}}</div>
+            <div *ngIf="!actionPressed || isAdmin; else Load" class="middle">
+              <span class="text" routerLink="/edit-category/{{category._id}}">Edit</span>
+              <span class="text" (click)="deleteCategory(category)">Delete</span>
             </div>
-          </ng-template>
+          </div>
+          <div class="container">
+            <div *ngIf="category.recipes?.length" class="recipes">
+              <app-small-recipe-list [title]="title" [recipes]="category.recipes">
+              </app-small-recipe-list>
+            </div>
+            <ng-template #Load>
+              <div class="middle-pb">
+                <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+              </div>
+            </ng-template>
+          </div>
         </div>
       </div>
-    </div>
+    </cdk-virtual-scroll-viewport>
   </div>
   <ng-template #Load>
     <div class="middle-pb">
       <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
     </div>
   </ng-template>
-  <div *ngIf="showRecipes" class="recipes">
+  <!-- <div *ngIf="showRecipes" class="recipes">
     <span (click)="clearRecipes()"><i class="fas fa-window-close"></i></span>
     <app-small-recipe-list [title]="title" [recipes]="recipesToShow">
     </app-small-recipe-list>
-  </div>
+  </div> -->
 </div>
