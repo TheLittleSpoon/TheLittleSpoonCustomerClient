@@ -12,10 +12,10 @@ import { map } from 'rxjs/operators';
 export class CategoryService {
   private categories: Category[] = [];
   filteredCategories?: Category[];
-  filteredCategriesEmitter!: EventEmitter<Category[]>;
+  filteredCategoriesEmitter!: EventEmitter<Category[]>;
 
   constructor(private requestService: RequestService, private router: Router) {
-    this.filteredCategriesEmitter = new EventEmitter<Category[]>();
+    this.filteredCategoriesEmitter = new EventEmitter<Category[]>();
   }
 
   getCategories(): Observable<Category[]> {
@@ -30,14 +30,14 @@ export class CategoryService {
     if (categoryName === '') {
       this.getCategories().subscribe((categories: Category[]) => {
         this.filteredCategories = categories;
-        this.filteredCategriesEmitter.emit(this.filteredCategories);
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
       });
     } else {
       this.getCategories().subscribe((categories: Category[]) => {
         this.filteredCategories = categories.filter((category: Category) =>
           category.name.toLowerCase().includes(categoryName.toLowerCase())
         );
-        this.filteredCategriesEmitter.emit(this.filteredCategories);
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
       });
     }
   }

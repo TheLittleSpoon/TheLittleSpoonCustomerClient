@@ -10,6 +10,7 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {CategoriesComponent} from './categories/categories.component';
 import {CreateEditCategoryComponent} from './create-edit-category/create-edit-category.component';
+import {CategoriesGraphComponent} from './categories-graph/categories-graph.component';
 
 export const APP_COMPONENTS = [
   AppComponent,
@@ -24,4 +25,5 @@ export const APP_COMPONENTS = [
   RegisterComponent,
   CategoriesComponent,
   CreateEditCategoryComponent,
+  CategoriesGraphComponent
 ];

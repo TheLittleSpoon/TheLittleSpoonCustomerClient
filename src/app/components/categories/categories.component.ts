@@ -38,7 +38,7 @@ export class CategoriesComponent implements OnInit {
       this.setRecipesToShow();
     });
 
-    this.categoryService.filteredCategriesEmitter.subscribe(
+    this.categoryService.filteredCategoriesEmitter.subscribe(
       (filteredCategories: Category[]) => {
         this.categories =
           filteredCategories.length > 0 ? filteredCategories : this.categories;

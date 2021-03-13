@@ -15,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
-import { APP_SERVICES } from './services';
+import {APP_SERVICES} from './services';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
