@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(private authenticationService: AuthenticationService) {
-    this.isAdmin = this.authenticationService.currentUserValue?.isAdmin ?? false;
+    this.authenticationService.currentUser.subscribe(value => this.isAdmin = value?.isAdmin ?? false);
   }
 
   ngOnInit(): void {

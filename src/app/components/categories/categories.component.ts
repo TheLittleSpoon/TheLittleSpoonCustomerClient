@@ -24,7 +24,7 @@ export class CategoriesComponent implements OnInit {
               private authenticationService: AuthenticationService) {
     this.showRecipes = false;
     this.actionPressed = false;
-    this.isAdmin = this.authenticationService.currentUserValue?.isAdmin ?? false;
+    this.authenticationService.currentUser.subscribe(value => this.isAdmin = value?.isAdmin ?? false);
   }
 
   ngOnInit(): void {

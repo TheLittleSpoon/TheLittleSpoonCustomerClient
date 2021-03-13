@@ -183,7 +183,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       recipeName: this.recipeToEdit?.name,
       categoryId: this.recipeToEdit?.categories,
       instructions: this.recipeToEdit?.instructions,
-      imageFile: this.recipeToEdit?.image
+      // imageFile: this.recipeToEdit?.image // todo: fix this
     };
     this.createRecipeForm.patchValue(updatedFormValue);
     this.addIngredients(this.recipeToEdit?.ingredients ?? []);
