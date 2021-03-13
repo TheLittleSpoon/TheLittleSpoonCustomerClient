@@ -24,7 +24,15 @@ export class HeaderComponent implements OnInit {
     $event.stopPropagation();
   }
 
+   isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+    input !== null && input.tagName === 'IFRAME';
+
   adminRedirect(): void {
-    window.location.href = 'http://34.68.121.245/';
+    const postMsg = JSON.parse(localStorage.getItem('currentUser') as string).token;
+    const frame = document.getElementById('ifr');
+    if (this.isIFrame(frame) && frame.contentWindow) {
+      frame.contentWindow.postMessage(postMsg, 'http://localhost:3000/');
+    }
+    window.open('http://localhost:3000/', '_self' );
   }
 }
