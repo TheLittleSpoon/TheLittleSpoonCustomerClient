@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
-import {RecipeService} from 'src/app/services/recipe.service';
-import {Recipe} from '../../recipe/types/recipe';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { RecipeService } from 'src/app/services/recipe.service';
+import { Recipe } from '../../recipe/types/recipe';
 import Swal from 'sweetalert2';
-import {AuthenticationService} from '../../../services/authentication.service';
-import {User} from '../../../types/user';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { User } from '../../../types/user';
 
 @Component({
   selector: 'app-small-recipe-list',
@@ -54,8 +54,8 @@ export class SmallRecipeListComponent {
           })
           .catch((error) => {
             Swal.fire('Error', 'Could Not Delete Recipe!', 'error');
-            this.router.navigate(['home']);
           });
+        this.router.navigate(['home']);
       }
     });
   }

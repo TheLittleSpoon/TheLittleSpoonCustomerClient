@@ -31,7 +31,15 @@ export class HomeComponent implements OnInit {
     });
     this.recipeService.filteredRecipesEmitter.subscribe(
       (filteredRecipes: Recipe[]) => {
-        this.recipes = filteredRecipes;
+        if (filteredRecipes?.length) {
+          this.recipes = filteredRecipes;
+        } else {
+          this.recipeService
+            .getRecipes()
+            .subscribe((recipesFromServer: Recipe[]) => {
+              this.recipes = recipesFromServer;
+            });
+        }
       }
     );
   }

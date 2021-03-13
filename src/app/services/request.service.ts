@@ -7,8 +7,7 @@ import { User } from '../types/user';
 @Injectable()
 export class RequestService {
   private readonly serverPath: string = 'http://35.224.144.255:3000';
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   get(endpoint: string, isAuth: boolean = true): Observable<any> {
     let headers = {};
@@ -45,23 +44,36 @@ export class RequestService {
   }
 
   put(endpoint: string, body: any): Observable<any> {
-    const currentUser: User = JSON.parse(localStorage.getItem('currentUser') as string);
-    const headers = {'x-auth-token': currentUser.token, 'content-type': 'application/json'};
-    return this.http.put(`${this.serverPath}${endpoint}`, body, {headers})
-      .pipe(map((response) => {
-        return response;
-      }), catchError(this.handleError));
+    const currentUser: User = JSON.parse(
+      localStorage.getItem('currentUser') as string
+    );
+    const headers = {
+      'x-auth-token': currentUser.token,
+      'content-type': 'application/json',
+    };
+    return this.http
+      .put(`${this.serverPath}${endpoint}`, body, { headers })
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   delete(endpoint: string, id: any): Observable<any> {
-    const currentUser: User = JSON.parse(localStorage.getItem('currentUser') as string);
-    const headers = {'x-auth-token': currentUser.token};
-    return this.http.delete(`${this.serverPath}${endpoint}${id}`, {headers})
-      .pipe(map((response) => {
-        return response;
-      }),
-      catchError(this.handleError)
+    const currentUser: User = JSON.parse(
+      localStorage.getItem('currentUser') as string
     );
+    const headers = { 'x-auth-token': currentUser.token };
+    return this.http
+      .delete(`${this.serverPath}${endpoint}${id}`, { headers })
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse): Observable<any> {
