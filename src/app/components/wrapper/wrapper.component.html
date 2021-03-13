@@ -9,7 +9,7 @@
   </mat-drawer>
 
   <div class="example-sidenav-content">
-    <app-header (burgerClick)="drawer.toggle()" [userName]="currentUser.name"></app-header>
+    <app-header (burgerClick)="drawer.toggle()" [userName]="currentUser?.name"></app-header>
     <div class="title">The Little Spoon</div>
     <ng-content></ng-content>
   </div>
