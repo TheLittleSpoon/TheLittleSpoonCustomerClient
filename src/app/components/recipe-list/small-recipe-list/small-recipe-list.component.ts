@@ -15,15 +15,17 @@ export class SmallRecipeListComponent {
   @Input() title? = '';
   @Input() recipes: Recipe[] = [];
   userId!: string;
+  isAdmin?: boolean;
 
   constructor(
     private router: Router,
     private recipeService: RecipeService,
     private authenticationService: AuthenticationService
   ) {
-    this.authenticationService.currentUser.subscribe(
-      (user: User | null) => (this.userId = user?.id ?? '')
-    );
+    this.authenticationService.currentUser.subscribe((user: User | null) => {
+      this.userId = user?.id ?? '';
+      this.isAdmin = user?.isAdmin;
+    });
   }
 
   deleteRecipe(recipe: Recipe): void {
