@@ -67,6 +67,7 @@ export class CategoryService {
 
   updateCategory(category: Category): void {
     const body: string = JSON.stringify(category);
+    console.log(category);
     this.requestService
       .put('/api/categories/', body)
       .toPromise()

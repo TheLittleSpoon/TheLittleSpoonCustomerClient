@@ -84,6 +84,7 @@ export class CreateEditCategoryComponent implements OnInit {
   onSubmit(): void {
     this.showProgressBar = true;
     const category: Category = {
+      _id: this.categoryToEdit?._id,
       name: this.createCategoryForm.controls.name?.value,
     };
     if (!this.nameExist) {

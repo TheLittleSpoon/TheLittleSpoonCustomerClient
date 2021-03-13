@@ -37,13 +37,25 @@ export class SmallRecipeListComponent {
       cancelButtonText: 'No',
     }).then((result: any) => {
       if (result.value) {
-        this.recipeService.deleteRecipe(recipe).subscribe((data) => {
-        });
-        Swal.fire(
-          'Deleted!',
-          recipe.name + ' recipe has been deleted.',
-          'success'
-        );
+        this.recipeService
+          .deleteRecipe(recipe)
+          .toPromise()
+          .then((data) => {
+            this.recipeService
+              .getRecipes()
+              .subscribe((recipesFromServer: Recipe[]) => {
+                this.recipes = recipesFromServer;
+                Swal.fire(
+                  'Deleted!',
+                  recipe.name + ' recipe has been deleted.',
+                  'success'
+                );
+              });
+          })
+          .catch((error) => {
+            Swal.fire('Error', 'Could Not Delete Recipe!', 'error');
+            this.router.navigate(['home']);
+          });
       }
     });
   }
