@@ -58,7 +58,11 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) =>
-      this.recipeService.getRecipe(params.id).subscribe((recipe: Recipe | undefined) => this.recipeToEdit = recipe));
+      this.recipeService.getRecipe(params.id)
+        .subscribe((recipe: Recipe | undefined) => {
+          this.recipeToEdit = recipe;
+          this.updateForm();
+        }));
     this.categoryService.getCategories()
       .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
@@ -72,11 +76,11 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       } = newRecipe;
       this.recipeToEditChanged =
         recipeName === this.recipeToEdit?.name &&
-        categoryId === this.recipeToEdit?.categoryId &&
+        categoryId === this.recipeToEdit?.categories &&
         instructions === this.recipeToEdit?.instructions &&
         JSON.stringify(ingredients) ===
         JSON.stringify(this.recipeToEdit?.ingredients) &&
-        imageFile === this.recipeToEdit?.imageUrl;
+        imageFile === this.recipeToEdit?.image;
     });
   }
 
@@ -132,16 +136,15 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     }
     const recipe: Recipe = {
       name: this.createRecipeForm.controls.recipeName?.value,
-      categoryId: this.createRecipeForm.controls.categoryId?.value,
+      categories: this.createRecipeForm.controls.categoryId?.value,
       instructions: this.createRecipeForm.controls.instructions?.value,
-      imageUrl: this.url,
+      image: this.url,
       ingredients: ingredientsArray,
       author: this.currentUser.id
     };
     this.recipeToEdit
       ? this.recipeService.updateRecipe(recipe)
       : this.recipeService.saveRecipe(recipe);
-    this.recipeService.saveRecipe(recipe);
     this.createRecipeForm.reset();
     this.deleteUrl();
   }
@@ -157,7 +160,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         [Validators.required, Validators.minLength(3)]
       ),
       categoryId: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.categoryId : undefined,
+        this.recipeToEdit ? this.recipeToEdit.categories : undefined,
         [Validators.required]
       ),
       instructions: new FormControl(
@@ -165,13 +168,24 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         Validators.required
       ),
       imageFile: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.imageUrl : ''
+        this.recipeToEdit ? this.recipeToEdit.image : ''
       ),
       ingredients: this.fb.array([], Validators.required),
     });
     if (this.recipeToEdit) {
-      this.url = this.recipeToEdit.imageUrl;
+      this.url = this.recipeToEdit.image;
       this.addIngredients(this.recipeToEdit.ingredients);
     }
+  }
+
+  updateForm(): void {
+    const updatedFormValue: any = {
+      recipeName: this.recipeToEdit?.name,
+      categoryId: this.recipeToEdit?.categories,
+      instructions: this.recipeToEdit?.instructions,
+      imageFile: this.recipeToEdit?.image
+    };
+    this.createRecipeForm.patchValue(updatedFormValue);
+    this.addIngredients(this.recipeToEdit?.ingredients ?? []);
   }
 }

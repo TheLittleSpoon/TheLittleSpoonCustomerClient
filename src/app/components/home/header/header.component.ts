@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {User} from '../../../types/user';
 
 @Component({
   selector: 'app-header',

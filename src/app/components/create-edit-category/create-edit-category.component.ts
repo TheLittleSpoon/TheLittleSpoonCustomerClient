@@ -34,14 +34,12 @@ export class CreateEditCategoryComponent implements OnInit {
   categoryToEditChanged?: boolean;
   submitted!: boolean;
   showProgressBar!: boolean;
-  categories!: Category[];
+  categories: Category[] = [];
   nameExist!: boolean;
 
-  constructor(
-    private fb: FormBuilder,
-    private categoryService: CategoryService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder,
+              private categoryService: CategoryService,
+              private route: ActivatedRoute) {
     this.saveCategory = new EventEmitter<Category>();
     this.updateCategory = new EventEmitter<Category>();
     this.categoryToEditChanged = true;
@@ -51,9 +49,11 @@ export class CreateEditCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) =>
-      this.categoryService.getCategory(params.id).subscribe(value => this.categoryToEdit = value));
-    this.categoryService
-      .getCategories()
+      this.categoryService.getCategory(params.id).subscribe(value => {
+        this.categoryToEdit = value;
+        this.updateForm();
+      }));
+    this.categoryService.getCategories()
       .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
     this.createCategoryForm.valueChanges.subscribe((newCategory: Category) => {
@@ -71,9 +71,6 @@ export class CreateEditCategoryComponent implements OnInit {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
   deleteUrl(): void {
     this.url = '';
     this.createCategoryForm.controls.imageUrl?.setValue(undefined);
@@ -89,7 +86,6 @@ export class CreateEditCategoryComponent implements OnInit {
       this.categoryToEdit
         ? this.categoryService.updateCategory(category)
         : this.categoryService.saveCategory(category);
-      this.categoryService.saveCategory(category);
       this.createCategoryForm.reset();
       this.deleteUrl();
     }
@@ -106,6 +102,16 @@ export class CreateEditCategoryComponent implements OnInit {
         [Validators.required]
       ),
     });
-    this.categoryToEdit ? (this.url = this.categoryToEdit.imageUrl) : '';
+    if (this.categoryToEdit) {
+      this.url = this.categoryToEdit.imageUrl;
+    }
+  }
+
+  updateForm(): void {
+    const updatedFormValue: any = {
+      name: this.categoryToEdit?.name,
+      imageUrl: this.categoryToEdit?.imageUrl,
+    };
+    this.createCategoryForm.patchValue(updatedFormValue);
   }
 }

@@ -19,8 +19,9 @@ export class RecipeService {
   }
 
   saveRecipe(recipe: Recipe): void {
+    const body: string = JSON.stringify(recipe);
     this.requestService
-      .post('/api/recipes/create', recipe)
+      .post('/api/recipes/create', body)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -33,8 +34,9 @@ export class RecipeService {
   }
 
   updateRecipe(recipe: Recipe): void {
+    const body: string = JSON.stringify(recipe);
     this.requestService
-      .post('/api/recipes/update', recipe)
+      .put('/api/recipes/', body)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -56,15 +58,15 @@ export class RecipeService {
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.requestService.post('/api/recipes/delete', recipe);
+    return this.requestService.delete('/api/recipes/', recipe._id);
   }
 
   getRecipes(): Observable<Recipe[]> {
     return this.requestService.get('/api/recipes/');
   }
 
-  getRecipe(id: number): Observable<Recipe | undefined> {
+  getRecipe(id: string): Observable<Recipe | undefined> {
     return this.getRecipes().pipe(map(
-      (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe.id === id)));
+      (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe._id === id)));
   }
 }

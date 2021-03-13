@@ -4,9 +4,9 @@
     <div class="recipe-wrapper">
       <div class="recipe-name">{{recipe.name}}</div>
       <div class="container" [ngClass]="{'hoverable': recipe.author === userId}">
-        <img src="{{recipe.imageUrl}}" class="image">
+        <img src="{{recipe.image}}" class="image">
         <div class="middle" [ngClass]="{'hoverable': recipe.author === userId}">
-          <span class="text" routerLink="/edit-recipe/{{recipe.id}}">Edit</span>
+          <span class="text" routerLink="/edit-recipe/{{recipe._id}}">Edit</span>
           <span class="text" (click)="deleteRecipe(recipe)">Delete</span>
         </div>
       </div>

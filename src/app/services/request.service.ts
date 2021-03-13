@@ -31,10 +31,19 @@ export class RequestService {
       }), catchError(this.handleError));
   }
 
-  delete(endpoint: string): Observable<any> {
+  put(endpoint: string, body: any): Observable<any> {
+    const currentUser: User = JSON.parse(localStorage.getItem('currentUser') as string);
+    const headers = {'x-auth-token': currentUser.token, 'content-type': 'application/json'};
+    return this.http.put(`${this.serverPath}${endpoint}`, body, {headers})
+      .pipe(map((response) => {
+        return response;
+      }), catchError(this.handleError));
+  }
+
+  delete(endpoint: string, id: any): Observable<any> {
     const currentUser: User = JSON.parse(localStorage.getItem('currentUser') as string);
     const headers = {'x-auth-token': currentUser.token};
-    return this.http.delete(`${this.serverPath}${endpoint}`, {headers})
+    return this.http.delete(`${this.serverPath}${endpoint}${id}`, {headers})
       .pipe(map((response) => {
         return response;
       }), catchError(this.handleError));
