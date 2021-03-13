@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { RecipeService } from 'src/app/services/recipe.service';
-import { Recipe } from '../../recipe/types/recipe';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Router} from '@angular/router';
+import {RecipeService} from 'src/app/services/recipe.service';
+import {Recipe} from '../../recipe/types/recipe';
 import Swal from 'sweetalert2';
-import { AuthenticationService } from '../../../services/authentication.service';
-import { User } from '../../../types/user';
+import {AuthenticationService} from '../../../services/authentication.service';
+import {User} from '../../../types/user';
 
 @Component({
   selector: 'app-small-recipe-list',
@@ -13,7 +13,7 @@ import { User } from '../../../types/user';
 })
 export class SmallRecipeListComponent {
   @Input() title? = '';
-  @Input() recipes?: Recipe[];
+  @Input() recipes?: Recipe[] = [];
   userId!: string;
   isAdmin?: boolean;
 
@@ -58,5 +58,9 @@ export class SmallRecipeListComponent {
           });
       }
     });
+  }
+
+  navigateRecipe(_id: string): void {
+    this.router.navigate(['/recipe/' + _id]);
   }
 }

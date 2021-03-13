@@ -1,11 +1,15 @@
 .recipe {
-  border: 1px solid lightskyblue;
-  border-radius: 10px;
-  background-color: lightblue;
   display: flex;
   flex-direction: column;
-  height: fit-content;
-  width: 500px;
+  align-items: center;
+  margin-top: 20px;
+  font-family: Ubuntu;
+}
+
+.recipe-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .recipe-wrapper {
@@ -15,17 +19,18 @@
 }
 
 .image {
-  height: 100px;
-  width: 100px;
+  height: 300px;
+  width: 300px;
   border-radius: 20px;
 }
 
-.recipe > h1 {
-
+.category-container {
+  display: flex;
+  align-items: center;
 }
 
-.recipe > h2 {
-
+h3 {
+  margin-right: 10px;
 }
 
 th, td {
@@ -34,6 +39,9 @@ th, td {
 
 .ingredient-table {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ingredient {
@@ -44,4 +52,8 @@ th, td {
 .instruction {
   display: flex;
   flex-direction: row;
+}
+
+.step-number {
+  margin-right: 5px;
 }
