@@ -58,15 +58,15 @@
   -ms-transform: translate(-50%, -50%);
 }
 
-.middle:hover {
+.middle.hoverable:hover {
   cursor: pointer;
 }
 
-.container:hover .image {
+.container.hoverable:hover .image {
   opacity: 0.3;
 }
 
-.container:hover .middle {
+.container.hoverable:hover .middle {
   opacity: 1;
 }
 

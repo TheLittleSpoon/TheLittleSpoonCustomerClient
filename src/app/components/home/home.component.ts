@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {
-    this.recipes = this.recipeService.recipes;
     this.recipeService.getRecipes().subscribe((recipesFromServer: Recipe[]) => {
       if (recipesFromServer) {
         this.recipes = recipesFromServer;

@@ -7,16 +7,16 @@ import {RequestService} from './request.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
   constructor(private http: HttpClient,
               private requestService: RequestService) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser') as string));
+    this.currentUserSubject = new BehaviorSubject<User | null>(JSON.parse(localStorage.getItem('currentUser') as string));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): any {
+  public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
@@ -39,6 +39,7 @@ export class AuthenticationService {
           const currentUser: User = JSON.parse(localStorage.getItem('currentUser') as string);
           currentUser.name = answer.name;
           currentUser.isAdmin = answer.isAdmin;
+          currentUser.id = answer._id;
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
           this.currentUserSubject.next(currentUser);
         });
@@ -55,6 +56,7 @@ export class AuthenticationService {
         user.email = email;
         user.name = name;
         user.isAdmin = false;
+        user.id = response.body._id;
         user.token = response.headers.get('x-auth-token') ?? '';
         if (user.token === '') {
           console.log('Error retrieving token');

@@ -3,9 +3,11 @@
     <mat-icon [svgIcon]="'white-burger'" class="burger" (click)="onBurgerClicked($event);"></mat-icon>
   </div>
   <div>
-    <mat-icon [svgIcon]="'the_little_spoon'" class="logo"></mat-icon>
+    <mat-icon [svgIcon]="'the_little_spoon'" routerLink="/home" class="logo"></mat-icon>
   </div>
   <div class="right-wrapper">
+    <div *ngIf="isAdmin" class="admin-button" (click)="adminRedirect()">Go to Admin Client</div>
     <div class="user-name">Hi, {{userName}}</div>
   </div>
+  <iframe *ngIf="isAdmin" style="display:none;" src="http://localhost:3000/" id="ifr"></iframe>
 </div>
