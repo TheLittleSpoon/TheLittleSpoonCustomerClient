@@ -12,8 +12,8 @@ import {User} from '../../../types/user';
   styleUrls: ['./small-recipe-list.component.css'],
 })
 export class SmallRecipeListComponent {
-  @Input() title ? = '';
-  @Input() recipes: Recipe[] = [];
+  @Input() title? = '';
+  @Input() recipes?: Recipe[] = [];
   userId!: string;
   isAdmin?: boolean;
 

@@ -27,12 +27,19 @@ export class CategoryService {
   }
 
   searchCategoryByName(categoryName: string): void {
-    this.getCategories().subscribe((categories: Category[]) => {
-      this.filteredCategories = categories.filter((category: Category) =>
-        category.name.toLowerCase().includes(categoryName.toLowerCase())
-      );
-      this.filteredCategriesEmitter.emit(this.filteredCategories);
-    });
+    if (categoryName === '') {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories;
+        this.filteredCategriesEmitter.emit(this.filteredCategories);
+      });
+    } else {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories.filter((category: Category) =>
+          category.name.toLowerCase().includes(categoryName.toLowerCase())
+        );
+        this.filteredCategriesEmitter.emit(this.filteredCategories);
+      });
+    }
   }
 
   saveCategory(category: Category): void {

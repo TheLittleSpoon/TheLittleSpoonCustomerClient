@@ -15,13 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
-import {APP_SERVICES} from './services';
+import { APP_SERVICES } from './services';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
-  declarations: [
-    ...APP_COMPONENTS,
-    ...APP_DIRECTIVES,
-  ],
+  declarations: [...APP_COMPONENTS, ...APP_DIRECTIVES],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -36,6 +34,7 @@ import {APP_SERVICES} from './services';
     FormsModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    ScrollingModule,
   ],
   providers: [...APP_SERVICES],
   bootstrap: [AppComponent],
