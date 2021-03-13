@@ -16,7 +16,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
 import {APP_SERVICES} from './services';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+
+const config: SocketIoConfig = { url: 'http://35.224.144.255:3000', options: {} };
 
 @NgModule({
   declarations: [...APP_COMPONENTS, ...APP_DIRECTIVES],
@@ -35,6 +38,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     ScrollingModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [...APP_SERVICES],
   bootstrap: [AppComponent],

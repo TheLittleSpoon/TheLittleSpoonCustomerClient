@@ -49,21 +49,23 @@ export class RecipeService {
   }
 
   searchRecipe(name: string, category: string, ingredient: string): void {
-    this.requestService
-      .post('/api/recipes/byFilter', {
-        name,
-        category,
-        ingredient,
-      })
-      .toPromise()
-      .then((recipes: Recipe[]) => {
-        this.filteredRecipes = recipes;
-        console.log(this.filteredRecipes);
-        this.filteredRecipesEmitter.emit(this.filteredRecipes);
-      })
-      .catch(() => {
-        Swal.fire('Error', 'Could Not Search!', 'error');
-      });
+    if (name != '' || category != '' || ingredient != '') {
+      this.requestService
+        .post('/api/recipes/byFilter', {
+          name,
+          category,
+          ingredient,
+        })
+        .toPromise()
+        .then((recipes: Recipe[]) => {
+          this.filteredRecipes = recipes;
+          this.filteredRecipesEmitter.emit(this.filteredRecipes);
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Could Not Search!', 'error');
+        });
+    }
+    this.filteredRecipesEmitter.emit([]);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
