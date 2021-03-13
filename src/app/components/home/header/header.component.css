@@ -44,3 +44,7 @@
 .admin-button:hover {
   background-color: var(--magenta);
 }
+
+.user-number {
+  margin-right: 50px;
+}

@@ -3,7 +3,6 @@ import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Recipe} from './components/recipe/types/recipe';
-import {Socket} from "ngx-socket-io";
 
 @Component({
   selector: 'app-root',
@@ -16,9 +15,7 @@ export class AppComponent implements OnInit, AfterContentChecked {
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
-              private recipeService: RecipeService,
-              private socketService: Socket) {
-    socketService.emit('login', [{data: 1}]);
+              private recipeService: RecipeService) {
     this.initIconsRegistry();
   }
 

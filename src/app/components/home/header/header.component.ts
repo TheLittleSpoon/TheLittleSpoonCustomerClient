@@ -11,6 +11,7 @@ const ADMIN_CLIENT_PATH = 'http://34.68.121.245/';
 })
 export class HeaderComponent implements OnInit {
   @Input() userName: string = 'user';
+  @Input() connectedUsers: number = 0;
   @Output() burgerClick: Subject<void> = new Subject<void>();
   isAdmin: boolean = false;
 

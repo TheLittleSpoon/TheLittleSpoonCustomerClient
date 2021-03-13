@@ -6,6 +6,7 @@
     <mat-icon [svgIcon]="'the_little_spoon'" routerLink="/home" class="logo"></mat-icon>
   </div>
   <div class="right-wrapper">
+    <div class="user-number">Connected Users: {{connectedUsers}}</div>
     <div *ngIf="isAdmin" class="admin-button" (click)="adminRedirect()">Go to Admin Client</div>
     <div class="user-name">Hi, {{userName}}</div>
   </div>
