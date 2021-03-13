@@ -16,6 +16,11 @@
   display: flex;
   background-color: var(--list-background);
   overflow-x: scroll;
+  flex-direction: column;
+}
+
+cdk-virtual-scroll-viewport ::-webkit-scrollbar-thumb {
+  background-color: rgb(238, 169, 79);
 }
 
 .category-wrapper {
@@ -26,6 +31,11 @@
   margin: 12px;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
 .category {
   border-radius: 10px;
   display: flex;
@@ -34,10 +44,10 @@
 }
 
 .category-name {
-  font-size: 14.5px;
+  font-size: 15px;
   font-family: "Ubuntu", sans-serif;
   margin-bottom: 8px;
-  height: 50px;
+  height: 30px;
 }
 
 .container {
@@ -62,14 +72,7 @@
 }
 
 .middle {
-  display: flex;
-  transition: 0.5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+  margin-left: 20px;
 }
 
 .middle:hover {
@@ -181,4 +184,21 @@
 app-search-bar {
   width: 210px;
   align-self: center;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
+  background-color: var(--light-maroon);
+  border-radius: 10px;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb:hover {
+  background-color: var(--maroon);
 }

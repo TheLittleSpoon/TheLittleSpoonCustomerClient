@@ -1,11 +1,11 @@
-<div class="recipe">
+<div class="recipe" *ngIf="recipe">
   <div class="recipe-header">
-<<<<<<< HEAD
-    <img class="image" src="{{recipe.image}}" />
-=======
     <img class="image" src="{{recipe.image}}"/>
->>>>>>> 026ae83a68a2461c70401f4e38616a9b559e6db9
     <h1 class="recipe-name">{{recipe.name}}</h1>
+    <div class="category-container">
+      <h3>Category:</h3>
+      <div>{{categoryName}}</div>
+    </div>
   </div>
 
   <h2>Ingredients:</h2>
@@ -23,8 +23,8 @@
   </table>
 
   <h2>Instructions:</h2>
-  <div class="instruction" *ngFor="let instruction of recipe.instructions; index as stepNumber">
-    <div class="step-number">{{stepNumber}}</div>
+  <div class="instruction" *ngFor="let instruction of separateInstructions(recipe.instructions); index as stepNumber">
+    <div class="step-number">{{stepNumber + 1}}.</div>
     <div class="instruction-text">{{instruction}}</div>
   </div>
 </div>

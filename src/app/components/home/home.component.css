@@ -1,6 +1,7 @@
 .list-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 app-small-recipe-list:not(:first-child) {
@@ -10,4 +11,9 @@ app-small-recipe-list:not(:first-child) {
 app-search-bar {
   width: 210px;
   align-self: center;
+}
+
+.graph-container {
+  display: flex;
+  justify-content: center;
 }

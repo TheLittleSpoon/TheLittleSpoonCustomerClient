@@ -48,23 +48,24 @@ export class RecipeService {
       });
   }
 
-  searchRecipe(
-    recipeName: string,
-    categoryId: number,
-    ingredientName: string
-  ): void {
-    this.requestService
-      .post('/api/recipes/filter', {
-        recipeName,
-        categoryId,
-        ingredientName,
-      })
-      .toPromise()
-      .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
-      .catch(() => {
-        Swal.fire('Error', 'Could Not Search!', 'error');
-      });
-    this.filteredRecipesEmitter.emit(this.filteredRecipes);
+  searchRecipe(name: string, category: string, ingredient: string): void {
+    if (name != '' || category != '' || ingredient != '') {
+      this.requestService
+        .post('/api/recipes/byFilter', {
+          name,
+          category,
+          ingredient,
+        })
+        .toPromise()
+        .then((recipes: Recipe[]) => {
+          this.filteredRecipes = recipes;
+          this.filteredRecipesEmitter.emit(this.filteredRecipes);
+        })
+        .catch(() => {
+          Swal.fire('Error', 'Could Not Search!', 'error');
+        });
+    }
+    this.filteredRecipesEmitter.emit([]);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
@@ -76,8 +77,20 @@ export class RecipeService {
   }
 
   loadRecipes(): void {
-    this.requestService.get('/api/recipes/').subscribe((recipes) => {
+    this.getRecipes().subscribe((recipes: Recipe[]) => {
       this.recipes = recipes;
     });
+  }
+
+  getRecipe(id: string): Observable<Recipe | undefined> {
+    return this.getRecipes().pipe(
+      map((recipes: Recipe[]) =>
+        recipes.find((recipe: Recipe) => recipe._id === id)
+      )
+    );
+  }
+
+  getGroupByCategory(): Observable<any> {
+    return this.requestService.get('/api/recipes/categories');
   }
 }

@@ -140,6 +140,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       }
     }
     const recipe: Recipe = {
+      _id: this.recipeToEdit?._id,
       name: this.createRecipeForm.controls.recipeName?.value,
       categories: this.createRecipeForm.controls.categoryId?.value,
       instructions: this.createRecipeForm.controls.instructions?.value,

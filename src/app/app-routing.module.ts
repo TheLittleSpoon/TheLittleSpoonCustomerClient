@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import {AuthGuard} from './services/auth-guard';
 import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
+import {RecipeComponent} from './components/recipe/recipe.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'edit-recipe/:id', component: CreateEditRecipeComponent },
   { path: 'create-category', component: CreateEditCategoryComponent },
   { path: 'edit-category/:id', component: CreateEditCategoryComponent },
+  { path: 'recipe/:id', component: RecipeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '' },
 ];

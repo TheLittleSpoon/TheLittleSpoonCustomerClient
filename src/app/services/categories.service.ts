@@ -12,10 +12,10 @@ import { map } from 'rxjs/operators';
 export class CategoryService {
   private categories: Category[] = [];
   filteredCategories?: Category[];
-  filteredCategriesEmitter!: EventEmitter<Category[]>;
+  filteredCategoriesEmitter!: EventEmitter<Category[]>;
 
   constructor(private requestService: RequestService, private router: Router) {
-    this.filteredCategriesEmitter = new EventEmitter<Category[]>();
+    this.filteredCategoriesEmitter = new EventEmitter<Category[]>();
   }
 
   getCategories(): Observable<Category[]> {
@@ -27,12 +27,19 @@ export class CategoryService {
   }
 
   searchCategoryByName(categoryName: string): void {
-    this.getCategories().subscribe((categories: Category[]) => {
-      this.filteredCategories = categories.filter((category: Category) =>
-        category.name.toLowerCase().includes(categoryName.toLowerCase())
-      );
-      this.filteredCategriesEmitter.emit(this.filteredCategories);
-    });
+    if (categoryName === '') {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories;
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
+      });
+    } else {
+      this.getCategories().subscribe((categories: Category[]) => {
+        this.filteredCategories = categories.filter((category: Category) =>
+          category.name.toLowerCase().includes(categoryName.toLowerCase())
+        );
+        this.filteredCategoriesEmitter.emit(this.filteredCategories);
+      });
+    }
   }
 
   saveCategory(category: Category): void {
@@ -65,11 +72,11 @@ export class CategoryService {
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Category Saved!', 'success');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       })
       .catch((error) => {
         Swal.fire('Error', 'Could Not Save Category!', 'error');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       });
   }
 }
