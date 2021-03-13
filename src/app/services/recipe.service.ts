@@ -80,4 +80,9 @@ export class RecipeService {
       this.recipes = recipes;
     });
   }
+
+  getRecipe(id: string): Observable<Recipe | undefined> {
+    return this.getRecipes().pipe(map(
+      (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe._id === id)));
+  }
 }

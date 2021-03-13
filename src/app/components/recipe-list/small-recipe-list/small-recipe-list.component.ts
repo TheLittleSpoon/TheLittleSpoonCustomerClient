@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { RecipeService } from 'src/app/services/recipe.service';
-import { Recipe } from '../../recipe/types/recipe';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Router} from '@angular/router';
+import {RecipeService} from 'src/app/services/recipe.service';
+import {Recipe} from '../../recipe/types/recipe';
 import Swal from 'sweetalert2';
-import { AuthenticationService } from '../../../services/authentication.service';
-import { User } from '../../../types/user';
+import {AuthenticationService} from '../../../services/authentication.service';
+import {User} from '../../../types/user';
 
 @Component({
   selector: 'app-small-recipe-list',
@@ -12,7 +12,7 @@ import { User } from '../../../types/user';
   styleUrls: ['./small-recipe-list.component.css'],
 })
 export class SmallRecipeListComponent {
-  @Input() title? = '';
+  @Input() title ? = '';
   @Input() recipes: Recipe[] = [];
   userId!: string;
   isAdmin?: boolean;
@@ -37,7 +37,8 @@ export class SmallRecipeListComponent {
       cancelButtonText: 'No',
     }).then((result: any) => {
       if (result.value) {
-        this.recipeService.deleteRecipe(recipe).subscribe((data) => {});
+        this.recipeService.deleteRecipe(recipe).subscribe((data) => {
+        });
         Swal.fire(
           'Deleted!',
           recipe.name + ' recipe has been deleted.',
@@ -45,5 +46,9 @@ export class SmallRecipeListComponent {
         );
       }
     });
+  }
+
+  navigateRecipe(_id: string): void {
+    this.router.navigate(['/recipe/' + _id]);
   }
 }
