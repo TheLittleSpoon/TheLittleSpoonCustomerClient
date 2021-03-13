@@ -3,7 +3,7 @@
     <mat-icon [svgIcon]="'white-burger'" class="burger" (click)="onBurgerClicked($event);"></mat-icon>
   </div>
   <div>
-    <mat-icon [svgIcon]="'the_little_spoon'" class="logo"></mat-icon>
+    <mat-icon [svgIcon]="'the_little_spoon'" routerLink="/home" class="logo"></mat-icon>
   </div>
   <div class="right-wrapper">
     <div *ngIf="isAdmin" class="admin-button" (click)="adminRedirect()">Go to Admin Client</div>

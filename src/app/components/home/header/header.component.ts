@@ -2,6 +2,8 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AuthenticationService} from '../../../services/authentication.service';
 
+const ADMIN_CLIENT_PATH = 'http://34.68.121.245/';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,15 +26,15 @@ export class HeaderComponent implements OnInit {
     $event.stopPropagation();
   }
 
-   isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
-    input !== null && input.tagName === 'IFRAME';
+  isIFrame = (input: HTMLElement | null): input is HTMLIFrameElement =>
+    input !== null && input.tagName === 'IFRAME'
 
   adminRedirect(): void {
     const postMsg = JSON.parse(localStorage.getItem('currentUser') as string).token;
     const frame = document.getElementById('ifr');
     if (this.isIFrame(frame) && frame.contentWindow) {
-      frame.contentWindow.postMessage(postMsg, 'http://localhost:3000/');
+      frame.contentWindow.postMessage(postMsg, ADMIN_CLIENT_PATH);
     }
-    window.open('http://localhost:3000/', '_self' );
+    window.open(ADMIN_CLIENT_PATH, '_self');
   }
 }
