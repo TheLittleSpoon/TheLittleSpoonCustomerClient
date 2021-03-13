@@ -10,5 +10,5 @@
     <div *ngIf="isAdmin" class="admin-button" (click)="adminRedirect()">Go to Admin Client</div>
     <div class="user-name">Hi, {{userName}}</div>
   </div>
-  <iframe *ngIf="isAdmin" style="display:none;" src="http://localhost:3000/" id="ifr"></iframe>
+  <iframe *ngIf="isAdmin" style="display:none;" src="{{adminClientPath}}" id="ifr"></iframe>
 </div>
