@@ -76,7 +76,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       } = newRecipe;
       this.recipeToEditChanged =
         recipeName === this.recipeToEdit?.name &&
-        categoryId === this.recipeToEdit?.categories &&
+        categoryId === this.recipeToEdit?.categoryId &&
         instructions === this.recipeToEdit?.instructions &&
         JSON.stringify(ingredients) ===
           JSON.stringify(this.recipeToEdit?.ingredients) &&
@@ -138,7 +138,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     }
     const recipe: Recipe = {
       name: this.createRecipeForm.controls.recipeName?.value,
-      categories: this.createRecipeForm.controls.categoryId?.value,
+      categoryId: this.createRecipeForm.controls.categoryId?.value,
       instructions: this.createRecipeForm.controls.instructions?.value,
       image: this.url,
       ingredients: ingredientsArray,
@@ -162,7 +162,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         [Validators.required, Validators.minLength(3)]
       ),
       categoryId: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.categories : undefined,
+        this.recipeToEdit ? this.recipeToEdit.categoryId : undefined,
         [Validators.required]
       ),
       instructions: new FormControl(
@@ -183,7 +183,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   updateForm(): void {
     const updatedFormValue: any = {
       recipeName: this.recipeToEdit?.name,
-      categoryId: this.recipeToEdit?.categories,
+      categoryId: this.recipeToEdit?.categoryId,
       instructions: this.recipeToEdit?.instructions,
       imageUrl: this.recipeToEdit?.image
     };

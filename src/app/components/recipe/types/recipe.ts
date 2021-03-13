@@ -6,6 +6,6 @@ export class Recipe {
   image?: string;
   ingredients!: Ingredient[];
   instructions!: string[];
-  categories!: string;
+  categoryId!: string;
   author!: string;
 }
