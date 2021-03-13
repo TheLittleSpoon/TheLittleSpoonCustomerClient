@@ -73,6 +73,12 @@ export class CategoriesComponent implements OnInit {
       .deleteCategory(category)
       .toPromise()
       .then((data) => {
+        this.categoryService
+          .getCategories()
+          .subscribe((categories: Category[]) => {
+            this.categories = categories;
+            this.setRecipesToShow();
+          });
         Swal.fire('Success', 'Category Deleted!', 'success');
         this.actionPressed = false;
       })
