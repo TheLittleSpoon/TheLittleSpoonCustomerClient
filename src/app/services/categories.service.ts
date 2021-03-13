@@ -10,6 +10,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CategoryService {
+  categories: Category[] = [];
   filteredCategories?: Category[];
   filteredCategoriesEmitter!: EventEmitter<Category[]>;
 

@@ -75,8 +75,18 @@ export class RecipeService {
     return this.requestService.get('/api/recipes/');
   }
 
+  loadRecipes(): void {
+    this.getRecipes().subscribe((recipes: Recipe[]) => {
+      this.recipes = recipes;
+    });
+  }
+
   getRecipe(id: string): Observable<Recipe | undefined> {
     return this.getRecipes().pipe(map(
       (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe._id === id)));
+  }
+
+  getGroupByCategory(): Observable<any> {
+    return this.requestService.get('/api/recipes/categories');
   }
 }
