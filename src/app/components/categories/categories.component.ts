@@ -32,7 +32,7 @@ export class CategoriesComponent implements OnInit {
       .getCategories()
       .subscribe((categories: Category[]) => (this.categories = categories));
 
-    this.categoryService.filteredCategriesEmitter.subscribe(
+    this.categoryService.filteredCategoriesEmitter.subscribe(
       (filteredCategories: Category[]) => {
         this.categories =
           filteredCategories.length > 0 ? filteredCategories : this.categories;

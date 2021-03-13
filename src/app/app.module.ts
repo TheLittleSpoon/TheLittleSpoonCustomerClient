@@ -16,11 +16,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { APP_COMPONENTS } from './components';
 import { APP_DIRECTIVES } from './directives';
 import {APP_SERVICES} from './services';
+import { CategoriesGraphComponent } from './components/categories-graph/categories-graph.component';
 
 @NgModule({
   declarations: [
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
+    CategoriesGraphComponent,
   ],
   imports: [
     BrowserModule,

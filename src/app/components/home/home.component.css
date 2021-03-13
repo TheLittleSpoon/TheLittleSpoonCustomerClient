@@ -11,3 +11,8 @@ app-search-bar {
   width: 210px;
   align-self: center;
 }
+
+.graph-container {
+  display: flex;
+  justify-content: center;
+}

@@ -1,4 +1,12 @@
 <div class="list-container">
   <app-search-bar [objectType]="1"></app-search-bar>
-  <app-small-recipe-list [title]="'Recipes:'" [recipes]="recipes"></app-small-recipe-list>
+  <app-small-recipe-list *ngIf="recipes; else Load" [title]="'Recipes:'" [recipes]="recipes"></app-small-recipe-list>
+  <ng-template #Load>
+    <div class="middle-pb">
+      <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </ng-template>
+</div>
+<div class="graph-container">
+  <app-categories-graph></app-categories-graph>
 </div>
