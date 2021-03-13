@@ -35,6 +35,6 @@ export class HeaderComponent implements OnInit {
     if (this.isIFrame(frame) && frame.contentWindow) {
       frame.contentWindow.postMessage(postMsg, ADMIN_CLIENT_PATH);
     }
-    window.open(ADMIN_CLIENT_PATH, '_self');
+    window.location.href = ADMIN_CLIENT_PATH;
   }
 }
