@@ -15,10 +15,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipes = this.recipeService.recipes;
+    this.recipeService.loadRecipes();
     this.recipeService.getRecipes().subscribe((recipesFromServer: Recipe[]) => {
-      if (recipesFromServer) {
-        this.recipes = recipesFromServer;
-      }
+      this.recipes = recipesFromServer;
     });
     this.recipeService.filteredRecipesEmitter.subscribe(
       (filteredRecipes: Recipe[]) => {

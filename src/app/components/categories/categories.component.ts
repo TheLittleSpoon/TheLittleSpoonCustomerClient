@@ -43,7 +43,7 @@ export class CategoriesComponent implements OnInit {
       this.clearRecipes();
     }
     this.recipesToShow = this.recipesService.recipes.filter(
-      (recipe: Recipe) => recipe.categoryId == category?._id
+      (recipe: Recipe) => recipe.categories == category?._id
     );
     if (this.recipesToShow.length > 0) {
       this.showRecipes = true;

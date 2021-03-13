@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from '../../recipe/types/recipe';
@@ -9,13 +18,13 @@ import Swal from 'sweetalert2';
   templateUrl: './small-recipe-list.component.html',
   styleUrls: ['./small-recipe-list.component.css'],
 })
-export class SmallRecipeListComponent implements OnInit {
+export class SmallRecipeListComponent implements OnChanges {
   @Input() title? = '';
   @Input() recipes: Recipe[] = [];
 
   constructor(private router: Router, private recipeService: RecipeService) {}
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {}
 
   deleteRecipe(recipe: Recipe): void {
     Swal.fire({

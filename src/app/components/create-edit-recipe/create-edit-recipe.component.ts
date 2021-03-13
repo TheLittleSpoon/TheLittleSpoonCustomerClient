@@ -55,8 +55,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.recipeToEdit = this.recipeService.getRecipe(params.id);
-      console.log(this.recipeToEdit);
+      this.recipeToEdit = this.recipeService.recipes.find(
+        (recipe: Recipe) => recipe._id == params.id
+      );
     });
     this.categoryService
       .getCategories()
@@ -72,13 +73,12 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       } = newRecipe;
       this.recipeToEditChanged =
         recipeName == this.recipeToEdit?.name &&
-        categoryId == this.recipeToEdit?.categoryId &&
+        categoryId == this.recipeToEdit?.categories &&
         instructions == this.recipeToEdit?.instructions &&
         JSON.stringify(ingredients) ==
           JSON.stringify(this.recipeToEdit?.ingredients) &&
-        imageUrl == this.recipeToEdit?.imageUrl;
+        imageUrl == this.recipeToEdit?.image;
       this.url = imageUrl;
-      console.log(this.createRecipeForm);
     });
   }
 
@@ -133,9 +133,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
     }
     const recipe: Recipe = {
       name: this.createRecipeForm.controls.recipeName?.value,
-      categoryId: this.createRecipeForm.controls.categoryId?.value,
+      categories: this.createRecipeForm.controls.categoryId?.value,
       instructions: this.createRecipeForm.controls.instructions?.value,
-      imageUrl: this.url,
+      image: this.url,
       ingredients: ingredientsArray,
     };
     this.recipeToEdit
@@ -156,21 +156,18 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         this.recipeToEdit ? this.recipeToEdit.name : '',
         [Validators.required, Validators.minLength(3)]
       ),
-      categoryId: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.categoryId : undefined,
-        [Validators.required]
-      ),
+      categoryId: new FormControl(this.recipeToEdit?.categories, [
+        Validators.required,
+      ]),
       instructions: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.instructions : '',
+        this.recipeToEdit?.instructions,
         Validators.required
       ),
-      imageUrl: new FormControl(
-        this.recipeToEdit ? this.recipeToEdit.imageUrl : ''
-      ),
+      imageUrl: new FormControl(this.recipeToEdit?.image),
       ingredients: this.fb.array([], Validators.required),
     });
     this.recipeToEdit
-      ? (this.url = this.recipeToEdit.imageUrl) &&
+      ? (this.url = this.recipeToEdit.image) &&
         this.addIngredients(this.recipeToEdit.ingredients)
       : '';
   }
