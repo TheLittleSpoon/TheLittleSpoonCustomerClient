@@ -11,7 +11,7 @@
         <div class="container">
           <img src="{{category.imageUrl}}" class="image" (click)="setRecipesToShow(category)">
           <div *ngIf="!actionPressed; else Load" class="middle">
-            <span class="text" routerLink="/edit-category/{{category.id}}">Edit</span>
+            <span class="text" routerLink="/edit-category/{{category._id}}">Edit</span>
             <span class="text" (click)="deleteCategory(category)">Delete</span>
           </div>
           <ng-template #Load>

@@ -68,7 +68,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         categoryId,
         instructions,
         ingredients,
-        imageFile,
+        imageUrl,
       } = newRecipe;
       this.recipeToEditChanged =
         recipeName == this.recipeToEdit?.name &&
@@ -76,7 +76,9 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         instructions == this.recipeToEdit?.instructions &&
         JSON.stringify(ingredients) ==
           JSON.stringify(this.recipeToEdit?.ingredients) &&
-        imageFile == this.recipeToEdit?.imageUrl;
+        imageUrl == this.recipeToEdit?.imageUrl;
+      this.url = imageUrl;
+      console.log(this.createRecipeForm);
     });
   }
 
@@ -95,7 +97,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
 
   deleteUrl(): void {
     this.url = '';
-    this.createRecipeForm.controls.imageFile?.setValue(undefined);
+    this.createRecipeForm.controls.imageUrl?.setValue(undefined);
   }
 
   addIngredient(ingredient?: Ingredient): void {
@@ -162,7 +164,7 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         this.recipeToEdit ? this.recipeToEdit.instructions : '',
         Validators.required
       ),
-      imageFile: new FormControl(
+      imageUrl: new FormControl(
         this.recipeToEdit ? this.recipeToEdit.imageUrl : ''
       ),
       ingredients: this.fb.array([], Validators.required),

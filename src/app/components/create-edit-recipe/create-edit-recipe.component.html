@@ -7,9 +7,12 @@
     <input formControlName="instructions" id="instructions" type="text">
     <label for="categoryId">categories</label>
     <select class="categories" name="categoryId" id="categoryId" formControlName="categoryId">
-      <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+      <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
     </select>
-    <label for="imageFile">Image</label>
+    <label for="imageUrl">Image</label>
+    <input id="imageUrl" formControlName="imageUrl" type="text">
+    <img *ngIf="url" id="output" width="200" [src]="url" />
+    <!-- <label for="imageFile">Image</label>
     <input class="image-uploader" formControlName="imageFile" id="imageFile" type="file" accept="image/*"
       (change)="loadFile($event)" #file>
     <div class="image-buttons">
@@ -18,7 +21,7 @@
       <button type="button" class="image-uploader-button" (click)="deleteUrl()"><i
           class="fas fa-trash-alt"></i></button>
     </div>
-    <img *ngIf="url" id="output" width="200" [src]="url" />
+    <img *ngIf="url" id="output" width="200" [src]="url" /> -->
     <label>Ingredients</label>
     <button type="button" class="image-uploader-button" (click)="addIngredient()"><i class="fas fa-plus"></i></button>
     <div formArrayName="ingredients">
