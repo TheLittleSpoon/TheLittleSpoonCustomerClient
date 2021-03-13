@@ -1,9 +1,9 @@
 <div class="title">{{title}}</div>
 <div class="list-strip">
   <div *ngFor="let recipe of recipes" class="recipe">
-    <div class="recipe-wrapper" routerLink="/recipe/{{recipe._id}}">
+    <div class="recipe-wrapper">
       <div class="recipe-name">{{recipe.name}}</div>
-      <div class="container">
+      <div class="container" routerLink="/recipe/{{recipe._id}}">
         <img src="{{recipe.image}}" class="image">
         <div class="middle" *ngIf="recipe.author === userId || isAdmin">
           <span class="text" routerLink="/edit-recipe/{{recipe._id}}">Edit</span>
