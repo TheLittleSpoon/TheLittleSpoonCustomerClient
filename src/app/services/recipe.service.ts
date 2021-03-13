@@ -1,11 +1,10 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { UnitEnum } from '../components/recipe/types/unit.enum';
+import { Observable } from 'rxjs';
 import { Recipe } from '../components/recipe/types/recipe';
 import Swal from 'sweetalert2';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { RequestService } from './request.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +13,15 @@ export class RecipeService {
   recipes: Recipe[] = [];
   filteredRecipes?: Recipe[];
   filteredRecipesEmitter!: EventEmitter<Recipe[]>;
+
   constructor(private requestService: RequestService, private router: Router) {
     this.filteredRecipesEmitter = new EventEmitter<Recipe[]>();
   }
 
   saveRecipe(recipe: Recipe): void {
+    const body: string = JSON.stringify(recipe);
     this.requestService
-      .post('/api/recipes/create', recipe)
+      .post('/api/recipes/create', body)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -33,8 +34,9 @@ export class RecipeService {
   }
 
   updateRecipe(recipe: Recipe): void {
+    const body: string = JSON.stringify(recipe);
     this.requestService
-      .post('/api/recipes/update', recipe)
+      .put('/api/recipes/', body)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Recipe Saved!', 'success');
@@ -52,7 +54,7 @@ export class RecipeService {
     ingredientName: string
   ): void {
     this.requestService
-      .post('http://34.66.166.236:3000/api/recipes/filter', {
+      .post('/api/recipes/filter', {
         recipeName,
         categoryId,
         ingredientName,
@@ -62,12 +64,11 @@ export class RecipeService {
       .catch(() => {
         Swal.fire('Error', 'Could Not Search!', 'error');
       });
-    // );
     this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
-    return this.requestService.post('/api/recipes/delete', recipe);
+    return this.requestService.delete('/api/recipes/', recipe._id);
   }
 
   getRecipes(): Observable<Recipe[]> {

@@ -8,21 +8,21 @@ import { RecipeService } from './recipe.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
   constructor(
     private http: HttpClient,
     private requestService: RequestService,
     private recipeService: RecipeService
   ) {
-    this.currentUserSubject = new BehaviorSubject<any>(
+    this.currentUserSubject = new BehaviorSubject<User | null>(
       JSON.parse(localStorage.getItem('currentUser') as string)
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): any {
+  public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
@@ -45,7 +45,6 @@ export class AuthenticationService {
           }
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
-
           this.requestService.get('/api/users/me').subscribe((answer) => {
             const currentUser: User = JSON.parse(
               localStorage.getItem('currentUser') as string

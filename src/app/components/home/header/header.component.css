@@ -10,6 +10,8 @@
   height: 80px;
   width: 80px;
   margin-top: 5px;
+  outline: none !important;
+  cursor: pointer;
 }
 
 .burger {
@@ -25,4 +27,20 @@
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
   align-items: center;
+}
+
+.admin-button {
+  cursor: pointer;
+  color: var(--orange);
+  margin-right: 50px;
+  width: fit-content;
+  border-radius: 10px;
+  height: 30px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-button:hover {
+  background-color: var(--magenta);
 }

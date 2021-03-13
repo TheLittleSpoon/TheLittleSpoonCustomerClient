@@ -21,6 +21,8 @@ import { RecipeService } from '../../services/recipe.service';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from 'src/app/services/categories.service';
 import { Category } from 'src/app/interfaces/category';
+import { AuthenticationService } from '../../services/authentication.service';
+import { User } from '../../types/user';
 
 @Component({
   selector: 'app-create-edit-recipe',
@@ -40,17 +42,22 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
   submitted!: boolean;
   showProgressBar!: boolean;
   readonly unitEnum: typeof UnitEnum = UnitEnum;
+  private currentUser: any;
 
   constructor(
     private fb: FormBuilder,
     private recipeService: RecipeService,
     private categoryService: CategoryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService
   ) {
     this.saveRecipe = new EventEmitter<Recipe>();
     this.updateRecipe = new EventEmitter<Recipe>();
     this.recipeToEditChanged = true;
     this.showProgressBar = false;
+    this.authenticationService.currentUser.subscribe(
+      (user: User | null) => (this.currentUser = user)
+    );
   }
 
   ngOnInit(): void {
@@ -137,16 +144,16 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
       instructions: this.createRecipeForm.controls.instructions?.value,
       image: this.url,
       ingredients: ingredientsArray,
+      author: this.currentUser.id,
     };
     this.recipeToEdit
       ? this.recipeService.updateRecipe(recipe)
       : this.recipeService.saveRecipe(recipe);
-    this.recipeService.saveRecipe(recipe);
     this.createRecipeForm.reset();
     this.deleteUrl();
   }
 
-  private addIngredients(ingredients: Ingredient[]) {
+  private addIngredients(ingredients: Ingredient[]): void {
     ingredients.forEach((ingredient) => this.addIngredient(ingredient));
   }
 
@@ -163,12 +170,25 @@ export class CreateEditRecipeComponent implements OnInit, OnChanges {
         this.recipeToEdit?.instructions,
         Validators.required
       ),
-      imageUrl: new FormControl(this.recipeToEdit?.image),
+      imageUrl: new FormControl(
+        this.recipeToEdit ? this.recipeToEdit.image : ''
+      ),
       ingredients: this.fb.array([], Validators.required),
     });
-    this.recipeToEdit
-      ? (this.url = this.recipeToEdit.image) &&
-        this.addIngredients(this.recipeToEdit.ingredients)
-      : '';
+    if (this.recipeToEdit) {
+      this.url = this.recipeToEdit.image;
+      this.addIngredients(this.recipeToEdit.ingredients);
+    }
+  }
+
+  updateForm(): void {
+    const updatedFormValue: any = {
+      recipeName: this.recipeToEdit?.name,
+      categoryId: this.recipeToEdit?.categories,
+      instructions: this.recipeToEdit?.instructions,
+      imageUrl: this.recipeToEdit?.image,
+    };
+    this.createRecipeForm.patchValue(updatedFormValue);
+    this.addIngredients(this.recipeToEdit?.ingredients ?? []);
   }
 }

@@ -1,30 +1,30 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChange,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from '../../recipe/types/recipe';
 import Swal from 'sweetalert2';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { User } from '../../../types/user';
 
 @Component({
   selector: 'app-small-recipe-list',
   templateUrl: './small-recipe-list.component.html',
   styleUrls: ['./small-recipe-list.component.css'],
 })
-export class SmallRecipeListComponent implements OnChanges {
+export class SmallRecipeListComponent {
   @Input() title? = '';
   @Input() recipes: Recipe[] = [];
+  userId!: string;
 
-  constructor(private router: Router, private recipeService: RecipeService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {}
+  constructor(
+    private router: Router,
+    private recipeService: RecipeService,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe(
+      (user: User | null) => (this.userId = user?.id ?? '')
+    );
+  }
 
   deleteRecipe(recipe: Recipe): void {
     Swal.fire({

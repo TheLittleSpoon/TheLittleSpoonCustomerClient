@@ -7,4 +7,5 @@ export class Recipe {
   ingredients!: Ingredient[];
   instructions!: string[];
   categories!: string;
+  author!: string;
 }

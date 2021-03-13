@@ -14,9 +14,9 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { CategoryService } from 'src/app/services/categories.service';
-import { Category } from 'src/app/interfaces/category';
+import {ActivatedRoute} from '@angular/router';
+import {CategoryService} from 'src/app/services/categories.service';
+import {Category} from 'src/app/interfaces/category';
 
 @Component({
   selector: 'app-create-edit-category',
@@ -34,14 +34,12 @@ export class CreateEditCategoryComponent implements OnInit {
   categoryToEditChanged?: boolean;
   submitted!: boolean;
   showProgressBar!: boolean;
-  categories!: Category[];
+  categories: Category[] = [];
   nameExist!: boolean;
 
-  constructor(
-    private fb: FormBuilder,
-    private categoryService: CategoryService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder,
+              private categoryService: CategoryService,
+              private route: ActivatedRoute) {
     this.saveCategory = new EventEmitter<Category>();
     this.updateCategory = new EventEmitter<Category>();
     this.categoryToEditChanged = true;
@@ -50,33 +48,28 @@ export class CreateEditCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.categoryToEdit = this.categoryService.getCategory(params.id);
-    });
-    this.categoryService
-      .getCategories()
+    this.route.params.subscribe((params) =>
+      this.categoryService.getCategory(params.id).subscribe(value => {
+        this.categoryToEdit = value;
+        this.updateForm();
+      }));
+    this.categoryService.getCategories()
       .subscribe((categories: Category[]) => (this.categories = categories));
     this.initForm();
     this.createCategoryForm.valueChanges.subscribe((newCategory: Category) => {
-      const { name, imageUrl } = newCategory;
-      if (
-        this.categories.find(
-          (category: Category) =>
-            category.name == this.createCategoryForm.controls.name?.value
-        )
-      ) {
+      const {name, imageUrl} = newCategory;
+      if (this.categories.find((category: Category) =>
+        category.name === this.createCategoryForm.controls.name?.value)) {
         this.nameExist = true;
       } else {
         this.nameExist = false;
         this.categoryToEditChanged =
-          name == this.categoryToEdit?.name &&
-          imageUrl == this.categoryToEdit?.imageUrl;
+          name === this.categoryToEdit?.name &&
+          imageUrl === this.categoryToEdit?.imageUrl;
       }
       this.url = imageUrl;
     });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   deleteUrl(): void {
     this.url = '';
@@ -93,7 +86,6 @@ export class CreateEditCategoryComponent implements OnInit {
       this.categoryToEdit
         ? this.categoryService.updateCategory(category)
         : this.categoryService.saveCategory(category);
-      this.categoryService.saveCategory(category);
       this.createCategoryForm.reset();
       this.deleteUrl();
     }
@@ -110,6 +102,16 @@ export class CreateEditCategoryComponent implements OnInit {
         [Validators.required]
       ),
     });
-    this.categoryToEdit ? (this.url = this.categoryToEdit.imageUrl) : '';
+    if (this.categoryToEdit) {
+      this.url = this.categoryToEdit.imageUrl;
+    }
+  }
+
+  updateForm(): void {
+    const updatedFormValue: any = {
+      name: this.categoryToEdit?.name,
+      imageUrl: this.categoryToEdit?.imageUrl,
+    };
+    this.createCategoryForm.patchValue(updatedFormValue);
   }
 }
