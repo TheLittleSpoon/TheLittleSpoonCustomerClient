@@ -13,7 +13,7 @@ import { User } from '../../../types/user';
 })
 export class SmallRecipeListComponent {
   @Input() title? = '';
-  @Input() recipes: Recipe[] = [];
+  @Input() recipes?: Recipe[];
   userId!: string;
   isAdmin?: boolean;
 
