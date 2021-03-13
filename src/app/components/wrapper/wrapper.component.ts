@@ -17,7 +17,7 @@ export class WrapperComponent {
   constructor(private router: Router, private authenticationService: AuthenticationService, private socket: Socket) {
     this.authenticationService.currentUser.subscribe((user: User | null) => this.currentUser = user);
     this.socket.emit('login', [{data: 1}]);
-    this.socket.fromEvent('joined').pipe(map((users: any) => this.connectedUsers = users.length));
+    this.socket.fromEvent('joind').pipe(map((users: any) => this.connectedUsers = users.length));
     this.socket.fromEvent('disconnectedUser').pipe(map((users: any) => this.connectedUsers = users.length));
   }
 
