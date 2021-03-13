@@ -1,6 +1,12 @@
-<form [formGroup]="objectSearchForm" class="search-container" (ngSubmit)="onSubmit()">
-  <input placeholder="search by name..." id="objectName" formControlName="objectName">
+<form [formGroup]="objectSearchForm" class="form" (ngSubmit)="onSubmit()">
+  <input class="search-container" placeholder="Search by name..." id="objectName" formControlName="objectName">
+  <select *ngIf="objectType === 1" class="categories" name="categoryId" id="categoryId" formControlName="categoryId">
+    <option value="" disabled selected>Category...</option>
+    <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
+  </select>
+  <input *ngIf="objectType === 1" class="ingredient-container" placeholder="Ingredient..." id="ingredientName"
+    formControlName="ingredientName">
   <button type="submit" class="btn-success">
-    <i class="fas fa-search" type="submit"></i>
+    Sreach
   </button>
 </form>

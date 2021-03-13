@@ -48,13 +48,23 @@ export class RecipeService {
       });
   }
 
-  searchRecipeByName(recipeName: string): void {
-    this.getRecipes().subscribe(recipes => {
-      this.filteredRecipes = recipes.filter((recipe: Recipe) =>
-        recipe.name.toLowerCase().includes(recipeName.toLowerCase())
-      );
-      this.filteredRecipesEmitter.emit(this.filteredRecipes);
-    });
+  searchRecipe(
+    recipeName: string,
+    categoryId: number,
+    ingredientName: string
+  ): void {
+    this.requestService
+      .post('/api/recipes/filter', {
+        recipeName,
+        categoryId,
+        ingredientName,
+      })
+      .toPromise()
+      .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
+      .catch(() => {
+        Swal.fire('Error', 'Could Not Search!', 'error');
+      });
+    this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
