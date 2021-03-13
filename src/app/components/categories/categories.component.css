@@ -72,14 +72,6 @@ cdk-virtual-scroll-viewport ::-webkit-scrollbar-thumb {
 }
 
 .middle {
-  /* display: flex;
-  transition: 0.5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%); */
   margin-left: 20px;
 }
 
@@ -192,4 +184,21 @@ cdk-virtual-scroll-viewport ::-webkit-scrollbar-thumb {
 app-search-bar {
   width: 210px;
   align-self: center;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb {
+  background-color: var(--light-maroon);
+  border-radius: 10px;
+}
+
+cdk-virtual-scroll-viewport::-webkit-scrollbar-thumb:hover {
+  background-color: var(--maroon);
 }
