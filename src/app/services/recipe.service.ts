@@ -48,23 +48,22 @@ export class RecipeService {
       });
   }
 
-  searchRecipe(
-    recipeName: string,
-    categoryId: number,
-    ingredientName: string
-  ): void {
+  searchRecipe(name: string, category: string, ingredient: string): void {
     this.requestService
-      .post('/api/recipes/filter', {
-        recipeName,
-        categoryId,
-        ingredientName,
+      .post('/api/recipes/byFilter', {
+        name,
+        category,
+        ingredient,
       })
       .toPromise()
-      .then((recipes: Recipe[]) => (this.filteredRecipes = recipes))
+      .then((recipes: Recipe[]) => {
+        this.filteredRecipes = recipes;
+        console.log(this.filteredRecipes);
+        this.filteredRecipesEmitter.emit(this.filteredRecipes);
+      })
       .catch(() => {
         Swal.fire('Error', 'Could Not Search!', 'error');
       });
-    this.filteredRecipesEmitter.emit(this.filteredRecipes);
   }
 
   deleteRecipe(recipe: Recipe): Observable<Recipe> {
@@ -82,7 +81,10 @@ export class RecipeService {
   }
 
   getRecipe(id: string): Observable<Recipe | undefined> {
-    return this.getRecipes().pipe(map(
-      (recipes: Recipe[]) => recipes.find((recipe: Recipe) => recipe._id === id)));
+    return this.getRecipes().pipe(
+      map((recipes: Recipe[]) =>
+        recipes.find((recipe: Recipe) => recipe._id === id)
+      )
+    );
   }
 }

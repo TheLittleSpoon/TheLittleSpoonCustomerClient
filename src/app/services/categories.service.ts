@@ -67,17 +67,16 @@ export class CategoryService {
 
   updateCategory(category: Category): void {
     const body: string = JSON.stringify(category);
-    console.log(category);
     this.requestService
       .put('/api/categories/', body)
       .toPromise()
       .then((data) => {
         Swal.fire('Success', 'Category Saved!', 'success');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       })
       .catch((error) => {
         Swal.fire('Error', 'Could Not Save Category!', 'error');
-        this.router.navigate(['home']);
+        this.router.navigate(['categories']);
       });
   }
 }
